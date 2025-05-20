@@ -20,7 +20,7 @@ const Register = ({ setCurrentView }: Props) => {
       className="max-w-sm flex flex-col items-center"
       data-testid="register-page"
     >
-      <h1 className="text-large-semi uppercase mb-6">
+      <h1 className="text-large-semi text-center uppercase mb-6">
         Become a Dynage Marketplace Store Member
       </h1>
       <p className="text-center text-base-regular text-ui-fg-base mb-4">
