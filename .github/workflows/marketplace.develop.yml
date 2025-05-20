@@ -1,13 +1,16 @@
-name: Marketplace Admin Test, Build, and Deploy
+name: Marketplace Develop CI/CD
+
 on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - main
-            - develop
-    
+  push:
+    branches: [main, develop]
+    paths:
+      - 'dynage-marketplace/**'
+      - 'dynage-marketplace-storefront/**'
+  pull_request:
+    branches: [develop, main]
+    paths:
+      - 'dynage-marketplace/**'
+      - 'dynage-marketplace-storefront/**'
 
 jobs:
     test:
