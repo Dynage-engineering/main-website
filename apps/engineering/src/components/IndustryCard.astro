@@ -1,5 +1,4 @@
 ---
-import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 
 const industry = await getCollection('industry');
@@ -12,18 +11,20 @@ interface IndustryDiv {
 }
 
 
-
-const industryReducedByType = industry.reduce((acc, { data }: { data: IndustryDiv[] }) => {
-    data.forEach((ind) => {
-		const type= ind.type ?? "industry"
+const industryReducedByType = industry.reduce<Record<string, IndustryDiv[]>>((acc, entry) => {
+	const data = entry.data as unknown as IndustryDiv[];
+	data.forEach((ind) => {
+		const type = "industry";
 		acc[type] = (acc[type] || []).concat(ind);
-    });
-    return acc;
-}, {} as Record<IndustryDiv['type'], IndustryDiv[]>);
+	});
+	return acc;
+}, {});
+
+
 
 ---
 {
-		industryReducedByType.industry.map(({ title, subtitle, key_capabilities }, index) => (
+		industryReducedByType.industry?.map(({ title, subtitle, key_capabilities }: IndustryDiv, index: number) => (
 			<div class={`grid md:grid-cols-[1fr_250px] py-12.5 ${index%2 === 0 ? 'bg-black text-white' : 'bg-white text-black'}`}>
 				<div class="grid-col-1 pr-12.5">
 					<h3 class="mb-3 project-title">{title}</h3>
@@ -34,14 +35,11 @@ const industryReducedByType = industry.reduce((acc, { data }: { data: IndustryDi
 					<br/>
 					<l class="list-disc text-sm">
                         {
-                            key_capabilities?.map((item) =>  <li>{item}</li>
+                            key_capabilities?.map((item: string) =>  <li>{item}</li>
                             )
                         }
 					</l>
 				</div>
 			</div>
 		) )
-}
-
-
-<div>
+		}

@@ -22,9 +22,9 @@ const investorsReducedByType = investors.reduce((acc, { data }: { data: Investor
         <li>
             <small class="investor--label">Platinum Level</small>
             <ul class="grid grid-cols-[repeat(2,1fr)] grid-auto-rows-[200px] border-t-dashed border-t-1 border-gray-200">
-                {investorsReducedByType.major.map(({ name, logo = false, subtitle = false }) => {
+                {investorsReducedByType.major.map(({ name, logo  }) => {
                     return <li class="grid-col-[1/-1] bg-black md:grid-col-[span_1] text-center py-12.5 lg:first:border-r-1 border-b-1 border-gray-200 grid place-content-center border-1 border-gray-200 m-[-0.5px]">
-                     { logo  &&   <img src={logo} alt={name} class="w-[100px] h-[100px] object-contain" />}
+                     { logo   &&   <img src={logo} alt={name} class="w-[100px] h-[100px] object-contain" />}
                         <h3 class="text-xl text-white">{name}</h3>
                     </li>
                 })}

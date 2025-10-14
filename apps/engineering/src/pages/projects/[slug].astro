@@ -3,7 +3,7 @@ import { ghostClient } from '../../lib/ghost';
 import Layout from '../../layouts/Layout.astro';
 
 
-import type { PostOrPage, PostsOrPages } from '@tryghost/content-api';
+import type { PostOrPage } from '@tryghost/content-api';
 
 export async function getStaticPaths() {
     const posts = await ghostClient.posts

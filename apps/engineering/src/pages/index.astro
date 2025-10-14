@@ -1,17 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
-import CountUp from '../components/CountUp.astro';
 import Section from '../components/Section.astro';
 import { getCollection } from 'astro:content';
-import ProjectCard from '../components/ProjectCard.astro';
 import SectionSpacer from '../components/SectionSpacer.astro';
 import StatsGrid from '../components/StatsGrid.astro';
 import InvestorGrid from '../components/InvestorGrid.astro';
 import IndustryCard from '../components/IndustryCard.astro';
 import { MeetingUrl } from '../consts';
 
-const projects = await getCollection('projects');
 ---
 
 <Layout title="Welcome to Neophyte">
