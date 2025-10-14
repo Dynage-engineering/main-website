@@ -32,9 +32,21 @@ const investors = defineCollection({
     schema: z.array(
         z.object({
             name: z.string(),
-            type: z.enum(['major','minor']),
+            type: z.enum(['major', 'minor']),
             subtitle: z.optional(z.string()),
             logo: z.optional(z.string())
+        })
+    )
+})
+
+const industry = defineCollection({
+    type: 'data',
+    schema: z.array(
+        z.object({
+            title: z.string(),
+            key_capabilities: z.optional(z.array(z.string())),
+            background: z.optional(z.enum(['black', 'white'])),
+            subtitle: z.optional(z.string()),
         })
     )
 })
@@ -77,7 +89,7 @@ const products = defineCollection({
 const posts = defineCollection({
     type: 'content',
     schema: z.object({
-        type: z.optional(z.enum(['announcement','release','post'])),
+        type: z.optional(z.enum(['announcement', 'release', 'post'])),
         title: z.string(),
         description: z.optional(z.string()),
         author: reference('authors'),
@@ -93,4 +105,5 @@ export const collections = {
     posts,
     authors,
     products,
+    industry,
 }

@@ -1,0 +1,46 @@
+[
+    {
+        "title": "🩺 Healthcare Technology",
+        "subtitle": "Optimizing clinical and administrative processes through intelligent monitoring systems, connected medical devices, and hospital automation platforms.",
+        "key_capabilities": [
+            "Smart patient monitoring systems",
+            "Automated hospital equipment tracking",
+            "Inventory and supply chain optimization",
+            "Predictive maintenance for medical assets",
+            "Energy-efficient facility management"
+        ]
+    },
+    {
+        "title": "🏙️ Real Estate & Smart Infrastructure",
+        "subtitle": "Developing systems that make buildings more intelligent, secure, and sustainable through automation and data-driven insights.",
+        "key_capabilities": [
+            "Smart lighting and HVAC optimization",
+            "IoT-based energy management systems",
+            "Predictive facility maintenance",
+            "Occupancy and space utilization analytics",
+            "Access control and building automation"
+        ]
+    },
+    {
+        "title": "🌾 Agricultural Technology",
+        "subtitle": "Designing IoT and AI systems that enhance productivity, sustainability, and precision across the agricultural value chain.",
+        "key_capabilities": [
+            " Precision irrigation and soil monitoring systems",
+            "Automated crop and livestock management",
+            "Predictive analytics for yield and resource usage",
+            "Greenhouse automation and climate control",
+            "Smart supply chain tracking and logistics"
+        ]
+    },
+    {
+        "title": "⚡ Energy Systems Engineering",
+        "subtitle": "Delivering intelligent solutions that optimize energy generation, distribution, and consumption — building the backbone of a sustainable energy future.",
+        "key_capabilities": [
+            "Smart grid management and load optimization",
+            "Predictive maintenance for power assets",
+            "Energy data analytics and fault detection",
+            "Renewable energy integration (solar, wind, hybrid)",
+            "Real-time monitoring and control systems"
+        ]
+    }
+]

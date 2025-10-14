@@ -1,0 +1,52 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getEntry, getCollection } from "astro:content";
+import Header from "../../components/Header.astro";
+import Layout from "../../layouts/Layout.astro";
+import Section from "../../components/Section.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
+import { ghostClient } from '../../lib/ghost';
+
+export async function getStaticPaths() {
+    const posts = await ghostClient.posts
+        .browse({
+            limit: 'all',
+            filter:"tags:neophyte",
+
+
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+
+    return posts.map((post) => {
+        return {
+            params: {
+                slug: post.slug,
+            },
+            props: {
+                post: post,
+            },
+        };
+    });
+}
+
+const { post } = Astro.props;
+---
+<Layout title={post?.title ?? "Neophyte"}>
+    <Header>
+        <a class="absolute top-0 left-0 px-4 py-2.5 border-1 border-t-0 border-l-0 border-gray-200 dark:border-gray-800 hover:bg-gray-900 hover:c-gray-200 transition" href="/blog">Return to blog</a>
+        <h1 class="text-10 leading-[1.2] lg:text-20">{post?.title ?? "Post title"}</h1>
+        <FormattedDate date={new Date(post?.published_at ?? "2020-01-01" ) } />
+    </Header>
+    <main>
+        <Section source={`by Neophyte Team`} fullWidthBorder class="content-wrapper">
+            <img src={post.feature_image} alt={post.title} />
+
+        <h1>{post.title}</h1>
+        <p>{post.reading_time} min read</p>
+        <Fragment set:html={post.html} />
+
+        </Section>
+    </main>
+</Layout>

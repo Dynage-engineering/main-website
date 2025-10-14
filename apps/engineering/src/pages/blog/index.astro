@@ -5,32 +5,48 @@ import Section from "../../components/Section.astro";
 import { getCollection, getEntry } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
 import SectionSpacer from "../../components/SectionSpacer.astro";
-
-const title = "Engineering blog"
-const subtitle = "This is where Dynage Engineers can post things that will then be read by users or potential customers!"
+const title = "Neophyte blog"
+const subtitle = "Some of our works that we have done for our clients."
 
 const posts = await getCollection('posts');
+import { ghostClient } from '../../lib/ghost';
+const GhostPosts = await ghostClient.posts
+    .browse({
+        limit: 'all',
+        filter:"tags:neophyte",
+    })
+    .catch((err) => {
+        console.error(err);
+    });
+
 ---
 <Layout title={title}>
     <Header gridBg>
-        <h1 class="text-12 leading-[1.2] lg:text-20">{title}</h1>
-        <h2 class="text-8 leading-[1.2] lg:text-16 c-gray-600">{subtitle}</h2>
+        <h1 class="text-10 leading-[1.2] lg:text-20">{title}</h1>
+        <h2 class="subtitle leading-[1.2] lg:text-16 c-gray-600">{subtitle}</h2>
     </Header>
     <main>
         <Section fullWidthBorder>
             <ul class="ignore-content-container">
-                {posts.map(async ({ slug, data }) => {
-                    const author = await getEntry('authors', data.author.id);
-                    return <li>
-                        <article class="relative p-12.5 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
-                            <h2 class="title">{data.title}</h2>
-                            <FormattedDate date={data.pubDate} /><br/>
-                            {data.description && <p class="subtitle">{data.description}</p>}
-                            <small class="small">Written by {author?.data.name}</small>
-                            <a href={`/blog/${slug}`} class="after:content-[''] after:absolute after:inset-0">
-                                <span class="sr-only">Read the {data.type} {data.title}</span>
-                            </a>
+                {GhostPosts.map(post => {
+                    return <li class="w-full border-b border-gray-200 
+                    cursor-pointer 
+                    dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 ">
+                         <a href={`/blog/${post.slug}`} class="after:content-[''] after:absolute after:inset-0">
+                        <article class="relative p-12.5 hover:bg-gray-50 dark:hover:bg-gray-800 transition ">
+                            <h2 class="title">{post.title}</h2>
+                            <p>{post.reading_time} min read</p>
+                            <p>{new Date(post.published_at).toLocaleDateString('en-us', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                            })}</p>
+                            <p class="description">{post.excerpt.slice(0, 100)}... 
+                                <span class="font-medium text-gray-600 dark:text-gray-400 underline">Read more 
+                                    &rarr;</span>
+                            </p>
                         </article>
+                            </a>
                     </li>
                 })}
             </ul>

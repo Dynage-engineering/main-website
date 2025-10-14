@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+
+const industry = await getCollection('industry');
+
+interface IndustryDiv {
+	title: string;
+	subtitle: string;
+	key_capabilities?: string[];
+	background?: "black" | "white";
+}
+
+
+
+const industryReducedByType = industry.reduce((acc, { data }: { data: IndustryDiv[] }) => {
+    data.forEach((ind) => {
+		const type= ind.type ?? "industry"
+		acc[type] = (acc[type] || []).concat(ind);
+    });
+    return acc;
+}, {} as Record<IndustryDiv['type'], IndustryDiv[]>);
+
+---
+{
+		industryReducedByType.industry.map(({ title, subtitle, key_capabilities }, index) => (
+			<div class={`grid md:grid-cols-[1fr_250px] py-12.5 ${index%2 === 0 ? 'bg-black text-white' : 'bg-white text-black'}`}>
+				<div class="grid-col-1 pr-12.5">
+					<h3 class="mb-3 project-title">{title}</h3>
+					<p class={`subtitle-small ${index%2 === 0 ? 'text-gray-500' : 'text-gray-500'}`}>{subtitle}</p>
+				</div>
+				<div class="">
+					<p class="font-semibold my-2">Key Capabilities:</p>
+					<br/>
+					<l class="list-disc text-sm">
+                        {
+                            key_capabilities?.map((item) =>  <li>{item}</li>
+                            )
+                        }
+					</l>
+				</div>
+			</div>
+		) )
+}
+
+
+<div>
