@@ -1,0 +1,33 @@
+---
+import { WORKSHOPS } from "../consts";
+import { Container } from "@dynage/ui/components/container";
+import WorkshopCard from "../components/WorkshopCard.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Workshops | Dynage Academy">
+  <section class="py-20 animate">
+    <Container size="md">
+      <div class="text-center md:text-left py-10">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Hands-on Workshops</h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mb-10">
+          Intensive sessions focused on practical skills and direct application.
+        </p>
+      </div>
+
+      <div class="flex gap-4 justify-center md:flex-wrap">
+        {
+          WORKSHOPS.map((workshop) => (
+            <WorkshopCard
+              title={workshop.TITLE}
+              description={workshop.DESCRIPTION}
+              image={workshop.IMAGE}
+              date={workshop.DATE}
+              price={workshop.PRICE}
+            />
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+</Layout>

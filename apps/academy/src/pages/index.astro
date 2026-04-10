@@ -1,22 +1,36 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro'
-import Brief from '../components/Brief.astro'
-import Pricing from '../components/Pricing.astro';
-import Customers from '../components/Customers.astro'
-import Footer from '../components/Footer.astro';
+import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Idol | Micro SaaS landing page">
-	<Header />
-	<Hero />
-	<Brief />
-	<Pricing />
-	<Customers />
-	<Footer />
+<Layout title="Dynage Academy | Master your craft">
+  <section
+    class="py-20 flex flex-col items-center justify-center text-center my-16"
+  >
+    <div class="max-w-3xl px-4">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+        Master Your Craft with <span class="text-blue-600">Dynage Academy</span>
+      </h1>
+      <p class="text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed">
+        Join our world-class courses and workshops designed for designers,
+        developers, and creative technologists. Learn from industry experts and
+        take your skills to the next level.
+      </p>
+      <div class="flex gap-4 justify-center">
+        <a
+          href="/courses"
+          class="px-8 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium transition-transform hover:scale-105"
+        >
+          View Courses
+        </a>
+        <a
+          href="/about"
+          class="px-8 py-3 border border-black/10 dark:border-white/10 rounded-full font-medium transition-transform hover:scale-105"
+        >
+          Learn More
+        </a>
+      </div>
+    </div>
+  </section>
 </Layout>
 
-<style>
-
-</style>
+<style></style>
