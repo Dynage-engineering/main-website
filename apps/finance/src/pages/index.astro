@@ -1,20 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
+import { ThemedHeader } from "@dynage/ui/components/themed-header";
+import { Footer } from "@dynage/ui/components/footer";
+import { SITE, LINKS, LOGO } from "../consts";
 import Hero from '../components/Hero.astro'
 import Brief from '../components/Brief.astro'
 import Pricing from '../components/Pricing.astro';
 import Customers from '../components/Customers.astro'
-import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="Idol | Micro SaaS landing page">
-	<Header />
-	<Hero />
-	<Brief />
-	<Pricing />
-	<Customers />
-	<Footer />
+<Layout title={SITE.TITLE}>
+	<ThemedHeader client:load site={SITE} links={LINKS} logo={LOGO} text="FINANCE" pathname={Astro.url.pathname} />
+	<main class="pt-16">
+		<Hero />
+		<Brief />
+		<Pricing />
+		<Customers />
+	</main>
+	<Footer site={SITE} />
 </Layout>
 
 <style>

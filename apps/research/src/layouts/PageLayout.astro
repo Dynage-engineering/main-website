@@ -1,24 +1,48 @@
 ---
-import "@styles/global.css"
+import "@dynage/ui/globals.css";
+import { ThemedHeader } from "@dynage/ui/components/themed-header";
+import { Footer } from "@dynage/ui/components/footer";
 import BaseHead from "@components/BaseHead.astro"
-import Header from "@components/Header.astro"
-import Footer from "@components/Footer.astro"
-import Drawer from "@components/Drawer.astro"
+import { SITE, LINKS, LOGO } from "@consts"
+
 const { title, description } = Astro.props
-import { SITE } from "@consts"
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <BaseHead title={`${title} | ${SITE.TITLE}`} description={description} />
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      })();
+    
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+      window.localStorage.setItem('theme', theme);
+    </script>
   </head>
-  <body>
-    <Header />
-    <Drawer />
-    <main>
+  <body class="bg-white dark:bg-black text-black dark:text-white transition-colors duration-300">
+    <ThemedHeader
+      client:load
+      site={SITE}
+      links={LINKS}
+      logo={LOGO}
+      text="RESEARCH"
+      pathname={Astro.url.pathname}
+    />
+    <main class="pt-16">
       <slot />
     </main>
-    <Footer />
+    <Footer site={SITE} />
   </body>
 </html>
