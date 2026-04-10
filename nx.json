@@ -1,0 +1,110 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "sharedGlobals": [
+      {
+        "env": "STORYBLOK_PREVIEW_TOKEN"
+      },
+      {
+        "env": "STORYBLOK_PERSONAL_TOKEN"
+      },
+      {
+        "env": "STORYBLOK_SPACE_ID"
+      },
+      {
+        "env": "STORYBLOK_REGION"
+      },
+      {
+        "env": "LOCALE"
+      },
+      {
+        "env": "SITE_LANG"
+      },
+      {
+        "env": "CURRENCY"
+      },
+      {
+        "env": "CONTACT_FORM_ENDPOINT"
+      },
+      {
+        "env": "MAILGUN_API_KEY"
+      },
+      {
+        "env": "MAILGUN_DOMAIN"
+      },
+      {
+        "env": "MAILGUN_API_URL"
+      },
+      {
+        "env": "FROM_EMAIL_ADDRESS"
+      },
+      {
+        "env": "POSTMARK_SERVER_TOKEN"
+      },
+      {
+        "env": "SLACK_TOKEN"
+      },
+      {
+        "env": "NEWSLETTER_ENDPOINT"
+      },
+      {
+        "env": "MAILCHIMP_API_KEY"
+      },
+      {
+        "env": "MAILCHIMP_SERVER_PREFIX"
+      },
+      {
+        "env": "MAILCHIMP_LIST_ID"
+      },
+      {
+        "env": "CONTENT_API_KEY"
+      },
+      {
+        "env": "GHOST_URL"
+      }
+    ],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ]
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist/**"
+      ],
+      "cache": true
+    },
+    "dev": {
+      "cache": false
+    },
+    "start": {
+      "dependsOn": [
+        "^start"
+      ],
+      "cache": true
+    },
+    "install": {
+      "dependsOn": [
+        "^install"
+      ],
+      "cache": true
+    },
+    "preview": {
+      "dependsOn": [
+        "^preview"
+      ],
+      "cache": true
+    },
+    "lint": {
+      "dependsOn": [
+        "^lint"
+      ],
+      "cache": true
+    }
+  },
+  "analytics": true
+}

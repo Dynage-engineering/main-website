@@ -1,18 +1,21 @@
 {
-  "name": "all-dynage-website",
+  "name": "dynage-technology",
   "version": "1.0.0",
-  "packageManager": "npm@10.2.4",
+  "packageManager": "pnpm@10.4.0",
   "private": true,
-  "workspaces": [
-    "apps/*"
-  ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "install": "turbo run install"
+    "build": "nx run-many -t build",
+    "dev": "nx run-many -t dev",
+    "lint": "nx run-many -t lint"
   },
   "devDependencies": {
-    "turbo": "^2.4.1"
+    "nx": "22.6.5",
+    "prettier": "^3.8.1",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
