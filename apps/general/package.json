@@ -17,6 +17,7 @@
     "typecheck": "astro check"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^13.1.8",
     "@astrojs/react": "^4.4.2",
     "@dynage/contents": "workspace:*",
     "@dynage/ui": "workspace:*",
@@ -31,7 +32,8 @@
     "react-dom": "^19.2.5",
     "react-is": "^19.2.5",
     "sanity": "^5.20.0",
-    "styled-components": "^6.4.0"
+    "styled-components": "^6.4.0",
+    "wrangler": "^4.81.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

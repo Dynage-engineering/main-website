@@ -17,13 +17,14 @@
     "typecheck": "astro check"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^13.1.8",
     "@astrojs/react": "^4.4.2",
+    "@dynage/contents": "workspace:*",
     "@dynage/ui": "workspace:*",
     "@sanity/astro": "^3.3.1",
     "@sanity/client": "^7.20.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@dynage/contents": "workspace:*",
     "astro": "^5.17.1",
     "astro-portabletext": "^0.13.0",
     "lucide-react": "^1.8.0",
@@ -31,7 +32,8 @@
     "react-dom": "^19.2.5",
     "react-is": "^19.2.5",
     "sanity": "^5.20.0",
-    "styled-components": "^6.4.0"
+    "styled-components": "^6.4.0",
+    "wrangler": "^4.81.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
