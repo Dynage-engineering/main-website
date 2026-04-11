@@ -51,7 +51,14 @@ function ThemedHeaderInner(props: HeaderProps) {
                 )}
                 onClick={() => setIsOpen(false)}
               >
-                {link.TEXT}
+                <div className="flex items-center justify-between w-full">
+                  <span>{link.TEXT}</span>
+                  {link.BADGE && (
+                    <span className="ml-2 text-[10px] font-black uppercase text-blue-500 bg-blue-500/10 px-2 py-0.5 rounded-full">
+                      {link.BADGE}
+                    </span>
+                  )}
+                </div>
               </a>
             ))}
           </nav>

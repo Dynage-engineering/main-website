@@ -6,16 +6,14 @@ export const SITE = {
 
 export const LINKS = [
   { TEXT: "Home", HREF: "/" },
-  { TEXT: "Projects", HREF: "/blog" },
+  { TEXT: "Projects", HREF: "/projects" },
   { TEXT: "About", HREF: "/about" },
-  { TEXT: "Shop", HREF: "#" },
+  { TEXT: "Shop", HREF: "#", BADGE: "Soon" },
 ]
 
 export const LOGO = {
   DARK: "https://res.cloudinary.com/dk0pompea/image/upload/v1739251030/dynage/logo/parent-company01_stziox.svg",
   alt: "Neophyte Logo",
 }
-
-export const MEETING_URL = "https://zcal.co/neophyte/30min";
 
 

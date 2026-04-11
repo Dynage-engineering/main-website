@@ -13,45 +13,54 @@ const randId = 'countUp'+performance.now()
     {start}{unit}
 </span>
 <script>
-    const isInt = (n:number) => n % 1 === 0;
-    class Count {
-        start: number;
-        end: number;
+    class CountUp {
+        el: HTMLSpanElement;
+        startValue: number;
+        endValue: number;
         unit: string;
-        by: number;
-        el:HTMLSpanElement;
-        constructor(el:HTMLSpanElement) {
+        duration: number = 2000;
+        startTime: number | null = null;
+
+        constructor(el: HTMLSpanElement) {
             this.el = el;
-            this.start = +el.dataset.cuStart!;
-            this.end = +el.dataset.cuEnd!;
-            this.unit = el.dataset.cuUnit!;
-            this.by = +el.dataset.cuBy!;
+            this.startValue = parseFloat(el.dataset.cuStart || "0");
+            this.endValue = parseFloat(el.dataset.cuEnd || "0");
+            this.unit = el.dataset.cuUnit || "";
         }
 
-        count(start:number = this.start) {
-            const nextValue = start + this.by;
-            const end = this.end;
-            if (start < end) {
-                this.el.textContent = ''+nextValue.toFixed(isInt(nextValue) ? 0 : 1)+this.unit;
-                requestAnimationFrame(() => this.count(nextValue));
-            }
+        animate(timestamp: number) {
+            if (!this.startTime) this.startTime = timestamp;
+            const progress = Math.min((timestamp - this.startTime) / this.duration, 1);
             
+            // Ease out quad
+            const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            
+            const current = this.startValue + (this.endValue - this.startValue) * easeProgress;
+            
+            const isInt = this.endValue % 1 === 0;
+            this.el.textContent = current.toFixed(isInt ? 0 : 1) + this.unit;
+
+            if (progress < 1) {
+                requestAnimationFrame((t) => this.animate(t));
+            }
+        }
+
+        start() {
+            requestAnimationFrame((t) => this.animate(t));
         }
     }
 
-    const CountUpMap = new Map<HTMLSpanElement, Count>();
-    
-    document.querySelectorAll<HTMLSpanElement>('[data-count-up]').forEach(el => CountUpMap.set(el, new Count(el)));
-
-    const io = new IntersectionObserver((entries, obs) => {
-        for (const entry of entries) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
-                CountUpMap.get(entry.target as HTMLSpanElement)?.count();
-                obs.unobserve(entry.target);
+                const counter = new CountUp(entry.target as HTMLSpanElement);
+                counter.start();
+                observer.unobserve(entry.target);
             }
-        }
-    })
-    CountUpMap.keys().forEach(el => io.observe(el));
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('[data-count-up]').forEach(el => observer.observe(el));
 </script>
 <style>
     span {

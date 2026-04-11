@@ -1,44 +1,52 @@
 ---
 import { getCollection } from "astro:content";
 import Section from "./Section.astro";
+import { client } from "@dynage/contents/client";
+import { urlFor } from "@dynage/contents/image";
 
-const investors = await getCollection('investors');
-interface InvestorIndiv {
+interface PartnerItem {
     name: string;
-    type: 'major'|'minor';
-    logo?: string;
-    subtitle?: string;
+    logo?: any;
 }
-const investorsReducedByType = investors.reduce((acc, { data }: { data: InvestorIndiv[] }) => {
-    data.forEach((investor) => {
-        acc[investor.type] = (acc[investor.type] || []).concat(investor);
-    });
-    return acc;
-}, {} as Record<InvestorIndiv['type'], InvestorIndiv[]>);
 
+// Fetch from Sanity
+const sanityPartners =
+    await client.fetch(`*[_type == "partner"] | order(order asc) {
+    name,
+    logo
+}`);
+
+// Local Fallback
+const localInvestors = await getCollection("investors");
+const localPartners = localInvestors.flatMap((entry) => entry.data as any[]);
+
+const displayPartners =
+    sanityPartners?.length > 0 ? sanityPartners : localPartners;
 ---
-<Section as="div" class="px-0" padBlock={false}>
-    <ul class="investor-grid relative ignore-content-container">
-        <li>
-            <small class="investor--label">Platinum Level</small>
-            <ul class="grid grid-cols-[repeat(2,1fr)] grid-auto-rows-[200px] border-t-dashed border-t-1 border-gray-200">
-                {investorsReducedByType.major.map(({ name, logo  }) => {
-                    return <li class="grid-col-[1/-1] bg-black md:grid-col-[span_1] text-center py-12.5 lg:first:border-r-1 border-b-1 border-gray-200 grid place-content-center border-1 border-gray-200 m-[-0.5px]">
-                     { logo   &&   <img src={logo} alt={name} class="w-[100px] h-[100px] object-contain" />}
-                        <h3 class="text-xl text-white">{name}</h3>
-                    </li>
-                })}
-            </ul>
-        </li>
-        <!-- <li>
-            <small class="investor--label">Emerald Level</small>
-            <ul class="grid grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)] lg:grid-cols-[repeat(4,1fr)] grid-auto-rows-[200px] border-t-dashed border-t-1 border-gray-200">
-                {investorsReducedByType.minor.map(({ name, logo, subtitle }) => {
-                    return <li class="grid-cols-[span_1] grid place-content-center p-10 border-1 border-gray-200 m-[-0.5px]">
-                        <h3 class="text-lg">{name}</h3>
-                    </li>
-                })}
-            </ul>
-        </li> -->
+
+<Section as="div" class="py-12" padBlock={false}>
+    <ul class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {
+            displayPartners.map(({ name, logo }: any) => (
+                <li class="group flex flex-col items-center justify-center p-8 rounded-3xl bg-gray-50 dark:bg-black/50 hover:bg-white dark:hover:bg-gray-900 border border-gray-100 dark:border-gray-800 transition-all hover:shadow-xl">
+                    {logo?.asset ? (
+                        <img
+                            src={urlFor(logo).width(200).url()}
+                            alt={name}
+                            class="w-32 h-32 object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
+                        />
+                    ) : (
+                        <img
+                            src={logo}
+                            alt={name}
+                            class="w-32 h-32 object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
+                        />
+                    )}
+                    <h3 class="mt-4 text-sm font-bold uppercase tracking-widest text-gray-400 group-hover:text-blue-600 transition-colors">
+                        {name}
+                    </h3>
+                </li>
+            ))
+        }
     </ul>
 </Section>

@@ -10,6 +10,7 @@ import { Menu, Moon, Rss, Search, Sun, X } from "lucide-react"
 interface Link {
   TEXT: string
   HREF: string
+  BADGE?: string
 }
 
 interface Logo {
@@ -80,13 +81,20 @@ export const Header: React.FC<HeaderProps> = ({
                   key={link.HREF}
                   href={link.HREF}
                   className={cn(
-                    "h-8 rounded-full px-3 text-current flex items-center justify-center transition-colors duration-300 ease-in-out",
+                    "h-8 rounded-full px-3 text-current flex items-center justify-center transition-colors duration-300 ease-in-out relative group/link",
                     isActive(link.HREF)
                       ? "bg-black dark:bg-white text-white dark:text-black"
                       : "hover:bg-black/5 dark:hover:bg-white/20 hover:text-black dark:hover:text-white"
                   )}
                 >
-                  {link.TEXT}
+                  <span className="relative">
+                    {link.TEXT}
+                    {link.BADGE && (
+                      <span className="absolute -top-3 -right-3 text-[8px] font-black uppercase text-blue-500 tracking-tighter">
+                        {link.BADGE}
+                      </span>
+                    )}
+                  </span>
                 </a>
               ))}
             </nav>

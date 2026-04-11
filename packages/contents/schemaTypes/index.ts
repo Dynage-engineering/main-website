@@ -5,6 +5,10 @@ import workshop from './workshop'
 import course from './course'
 import siteContent from './siteContent'
 import product from './product'
+import partner from './partner'
+import systemUrl from './systemUrl'
+import industry from './industry'
+import stat from './stat'
 
 export const schemaTypes = [
   blockContent,
@@ -14,4 +18,8 @@ export const schemaTypes = [
   course,
   siteContent,
   product,
+  partner,
+  systemUrl,
+  industry,
+  stat,
 ]
