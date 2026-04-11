@@ -1,5 +1,6 @@
 ---
 import { Button } from "@dynage/ui/components/button";
+import { Clock } from "lucide-react";
 import {
   Card,
   CardAction,
@@ -16,12 +17,13 @@ interface Props {
   image: string;
   level: string;
   duration: string;
+  price?: string;
 }
 
-const { title, description, image, level, duration } = Astro.props;
+const { title, description, image, level, duration, price } = Astro.props;
 ---
 
-<>
+<a href={`/courses/${title.toLowerCase().replace(" ", "-")}`}>
   <Card className="relative mx-auto w-full max-w-sm pt-0">
     <div class="absolute inset-0 z-30 aspect-video bg-black/35"></div>
     <img
@@ -35,12 +37,15 @@ const { title, description, image, level, duration } = Astro.props;
       </CardAction>
       <CardTitle>{title}</CardTitle>
       <CardDescription>
+        <div class="flex items-center gap-2">
+          <Clock className="h-4 w-4" />
+          {duration}
+        </div>
         {description.slice(0, 100) + "..."}
       </CardDescription>
     </CardHeader>
-    <CardFooter className="">
+    <CardFooter>
       <Button className="w-full">Enroll Now</Button>
-      <Button className="w-full">View Details</Button>
     </CardFooter>
   </Card>
-</>
+</a>

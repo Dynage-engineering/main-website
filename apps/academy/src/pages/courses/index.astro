@@ -2,35 +2,28 @@
 import Layout from "../../layouts/Layout.astro";
 import { Container } from "@dynage/ui/components/container";
 import CourseCard from "../../components/CourseCard.astro";
-// import { client } from "@dynage/contents/client";
-// import { urlFor } from "@dynage/contents/image";
+import { client } from "@dynage/contents/client";
+import { urlFor } from "@dynage/contents/image";
 import { COURSES } from "../../consts";
 
 import type { SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
 
-const POSTS_QUERY = `*[
-  _type == "post"
-  && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
-
-const posts = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
-
-// Fetch courses from Sanity
-const sanityCourses = await sanityClient.fetch(`*[_type == "course"]{
+// Fetch courses from Sanity with more robust description extraction
+const sanityCourses = await client.fetch(`*[_type == "course"]{
   title,
   "slug": slug.current,
   "image": mainImage,
   level,
   duration,
-  "description": array::join(syllabus[0].children[].text, "")
+  "description": coalesce(array::join(syllabus[0].children[].text, ""), "No description available")
 }`);
 
-console.log({ sanityCourses, posts });
+console.log({ sanityCourses });
 
-// Combine or use sanity courses if available, fallback to static for now
+// Use sanity courses if available, fallback to static data
 const displayCourses =
-  sanityCourses.length > 0
+  sanityCourses && sanityCourses.length > 0
     ? sanityCourses
     : COURSES.map((c) => ({
         title: c.TITLE,
@@ -52,13 +45,17 @@ const displayCourses =
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {
           displayCourses.map((course: any) => (
             <CourseCard
               title={course.title}
               description={course.description}
-              image={course.image?.asset ? course.image : course.image}
+              image={
+                course.image?.asset
+                  ? urlFor(course.image).width(400).url()
+                  : course.image
+              }
               level={course.level}
               duration={course.duration}
             />
