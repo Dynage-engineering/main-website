@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Section from "../components/Section.astro";
 import SectionSpacer from "../components/SectionSpacer.astro";
 import StatsGrid from "../components/StatsGrid.astro";
-import InvestorGrid from "../components/InvestorGrid.astro";
+import InvestorGrid from "@dynage/ui/astro/InvestorGrid.astro";
 import IndustryCard from "../components/IndustryCard.astro";
 import { client } from "@dynage/contents/client";
 import { MEETING_URL } from "../consts";
@@ -19,12 +19,13 @@ const pageData = await client.fetch(`{
 }`);
 
 const hero = pageData.content.find((s: any) => s.section === "Hero") || {
-  title: "Engineering Intelligent Systems for a Smarter World",
-  description: "We design and develop advanced devices and integrated automation systems that drive process optimization across Health, Real Estate, Agriculture, and Energy industries."
+	title: "Engineering Intelligent Systems for a Smarter World",
+	description:
+		"We design and develop advanced devices and integrated automation systems that drive process optimization across Health, Real Estate, Agriculture, and Energy industries.",
 };
 
 const mission = pageData.content.find((s: any) => s.section === "Mission") || {
-  title: '"The future is automated. Our mission is to build the underlying infrastructure that makes that intelligence accessible."'
+	title: '"The future is automated. Our mission is to build the underlying infrastructure that makes that intelligence accessible."',
 };
 
 const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
@@ -68,9 +69,12 @@ const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 				<h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
 					Industries we <span class="text-blue-600">Elevate</span>
 				</h2>
-				<p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-					We engineer tailored solutions for complex industrial challenges,
-					driving efficiency and automation where it matters most.
+				<p
+					class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+				>
+					We engineer tailored solutions for complex industrial
+					challenges, driving efficiency and automation where it
+					matters most.
 				</p>
 			</div>
 			<div class="px-4">
@@ -82,7 +86,9 @@ const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 
 		<Section variant="dark" fullWidthBorder={false}>
 			<div class="max-w-5xl mx-auto text-center py-20 px-8">
-				<h2 class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-8">
+				<h2
+					class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-8"
+				>
 					{mission.title}
 				</h2>
 				<div class="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
@@ -100,9 +106,11 @@ const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 				<h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
 					Strategic <span class="text-blue-600">Partnerships</span>
 				</h2>
-				<p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-					Collaborating with world-class organizations to push the boundaries of
-					IoT and system engineering.
+				<p
+					class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+				>
+					Collaborating with world-class organizations to push the
+					boundaries of IoT and system engineering.
 				</p>
 			</div>
 			<div class="px-4">

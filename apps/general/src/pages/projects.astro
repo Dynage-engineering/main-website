@@ -1,0 +1,93 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Section from "@dynage/ui/astro/Section";
+import SectionSpacer from "@dynage/ui/astro/SectionSpacer";
+import { client } from "@dynage/contents/client";
+import { urlFor } from "@dynage/contents/image";
+
+// Fetch all projects from Sanity
+const projects = await client.fetch(`*[_type == "project"] | order(publishedAt desc) {
+  title,
+  "slug": slug.current,
+  description,
+  category,
+  mainImage
+}`);
+---
+
+<MainLayout title="Projects | Dynage Technologies">
+  <section class="pt-32 pb-20 text-center">
+    <div class="max-w-4xl mx-auto px-4">
+      <h1 class="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-none">
+        A Heritage of <br />
+        <span class="text-blue-600">Innovation</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+        From robotics to financial systems, explore the cross-industry breakthroughs achieved across the Dynage ecosystem.
+      </p>
+    </div>
+  </section>
+
+  <main class="pb-32">
+    <Section>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 px-4">
+        {projects.map((project: any) => (
+          <div class="group relative bg-gray-50 dark:bg-zinc-900 rounded-[3rem] overflow-hidden border border-gray-100 dark:border-zinc-800 transition-all hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2">
+            <div class="aspect-[16/9] overflow-hidden bg-gray-200 dark:bg-zinc-800">
+              {project.mainImage ? (
+                <img 
+                  src={urlFor(project.mainImage).width(1200).url()} 
+                  alt={project.title}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center text-gray-400 font-bold uppercase tracking-widest">
+                  {project.title}
+                </div>
+              )}
+            </div>
+            <div class="p-10">
+              <div class="flex flex-wrap gap-2 mb-6">
+                {project.category?.map((cat: string) => (
+                  <span class="text-xs uppercase tracking-[0.2em] font-black px-4 py-1.5 bg-blue-600 text-white rounded-full">
+                    {cat}
+                  </span>
+                ))}
+              </div>
+              <h3 class="text-4xl font-black mb-6 group-hover:text-blue-600 transition-colors">
+                {project.title}
+              </h3>
+              <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8 line-clamp-2">
+                {project.description}
+              </p>
+              
+              <div class="flex items-center text-blue-600 font-black text-sm uppercase tracking-widest pt-6 border-t border-gray-100 dark:border-zinc-800">
+                 Explore Project
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                 </svg>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Section>
+
+    <SectionSpacer size="lg" />
+
+    <!-- CTA Section -->
+    <Section variant="dark" class="rounded-[4rem] mx-4 mb-32 overflow-hidden relative">
+       <div class="max-w-4xl mx-auto py-24 text-center px-8">
+          <h2 class="text-4xl md:text-7xl font-black mb-8 tracking-tighter">
+              Build Your <span class="text-blue-500">Legacy</span>
+          </h2>
+          <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+              Our multidisciplinary team is ready to tackle your most complex engineering and digital challenges.
+          </p>
+          <a href="https://zcal.co/dynage/30min" class="inline-flex px-12 py-5 bg-white text-black rounded-full font-black text-lg transition-transform hover:scale-110">
+              Partner With Us
+          </a>
+       </div>
+    </Section>
+  </main>
+</MainLayout>

@@ -37,49 +37,56 @@ const hex2rgb = (hex: string) => {
   return `${r} ${g} ${b}`;
 };
 
-const { settings, meta, localeUrls, bridge } = Astro.props;
+const { settings = {}, meta = { title: SITE.TITLE, description: SITE.DESCRIPTION, image: "" }, localeUrls, bridge } = Astro.props;
 const {
-  main_menu,
-  font_body,
-  font_headings,
-  surface_menu,
-  surface_page,
-  font_weight_body,
-  font_weight_headings,
-  dark_fg,
-  dark_bg,
-  light_fg,
-  light_bg,
-  primary_fg,
-  primary_bg,
-  secondary_fg,
-  secondary_bg,
-  accent_fg,
-  accent_bg,
-  info_fg,
-  info_bg,
-  warning_fg,
-  warning_bg,
-  danger_fg,
-  danger_bg,
-  success_fg,
-  success_bg,
-  muted_fg,
-  muted_bg,
-  contact_form,
-  tiny_analytics_id,
-  radius_media = "1",
-  radius_input = "0.2",
+  main_menu = null,
+  font_body = "--font-inter",
+  font_headings = "--font-inter",
+  surface_menu = "surface-light",
+  surface_page = "surface-light",
+  font_weight_body = "400",
+  font_weight_headings = "700",
+  dark_fg = { color: "#ffffff" },
+  dark_bg = { color: "#000000" },
+  light_fg = { color: "#000000" },
+  light_bg = { color: "#ffffff" },
+  primary_fg = { color: "#ffffff" },
+  primary_bg = { color: "#2563eb" }, // Blue-600
+  secondary_fg = { color: "#ffffff" },
+  secondary_bg = { color: "#1e293b" },
+  accent_fg = { color: "#ffffff" },
+  accent_bg = { color: "#3b82f6" },
+  info_fg = { color: "#ffffff" },
+  info_bg = { color: "#0ea5e9" },
+  warning_fg = { color: "#ffffff" },
+  warning_bg = { color: "#f59e0b" },
+  danger_fg = { color: "#ffffff" },
+  danger_bg = { color: "#ef4444" },
+  success_fg = { color: "#ffffff" },
+  success_bg = { color: "#10b981" },
+  muted_fg = { color: "#64748b" },
+  muted_bg = { color: "#f1f5f9" },
+  contact_form = [],
+  tiny_analytics_id = null,
+  radius_media = "1.5",
+  radius_input = "0.75",
 } = settings;
 const lang = getLangFromUrl(Astro.url);
 
 const t = useTranslations(lang);
 
+const hardcodedLinks = [
+  { TEXT: "Home", HREF: "/" },
+  { TEXT: "Work", HREF: "/work" },
+  { TEXT: "Services", HREF: "/services" },
+  { TEXT: "About", HREF: "/about" }
+];
+
 // Map Storyblok menu to shared Header format
 const mappedLinks = main_menu?.map((link: any) => ({
   TEXT: link.label || link.name || "Link",
   HREF: link.link?.cached_url || link.link?.url || "#"
-})) || [];
+})) || hardcodedLinks;
 
 const cssColors: { [key: string]: any } = {
   dark_fg,

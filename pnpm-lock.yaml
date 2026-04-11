@@ -184,6 +184,9 @@ importers:
       '@astrojs/react':
         specifier: ^4.4.2
         version: 4.4.2(@types/node@25.6.0)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(jiti@2.6.1)(lightningcss@1.32.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(sass@1.99.0)(tsx@4.21.0)(yaml@2.8.3)
+      '@dynage/contents':
+        specifier: workspace:*
+        version: link:../../packages/contents
       '@dynage/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -333,6 +336,9 @@ importers:
       '@astrojs/react':
         specifier: ^4.4.2
         version: 4.4.2(@types/node@25.6.0)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(jiti@2.6.1)(lightningcss@1.32.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(sass@1.99.0)(tsx@4.21.0)(yaml@2.8.3)
+      '@dynage/contents':
+        specifier: workspace:*
+        version: link:../../packages/contents
       '@dynage/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -345,9 +351,6 @@ importers:
       '@types/react':
         specifier: ^19.2.14
         version: 19.2.14
-      '@types/react-dom':
-        specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.14)
       astro:
         specifier: ^5.17.1
         version: 5.18.1(@netlify/blobs@10.7.4)(@types/node@25.6.0)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.1)(sass@1.99.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -406,6 +409,9 @@ importers:
       '@astrojs/react':
         specifier: ^4.4.2
         version: 4.4.2(@types/node@25.6.0)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(jiti@2.6.1)(lightningcss@1.32.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(sass@1.99.0)(tsx@4.21.0)(yaml@2.8.3)
+      '@dynage/contents':
+        specifier: workspace:*
+        version: link:../../packages/contents
       '@dynage/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -418,9 +424,6 @@ importers:
       '@types/react':
         specifier: ^19.2.14
         version: 19.2.14
-      '@types/react-dom':
-        specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.14)
       astro:
         specifier: ^5.17.1
         version: 5.18.1(@netlify/blobs@10.7.4)(@types/node@25.6.0)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.1)(sass@1.99.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -589,6 +592,9 @@ importers:
         specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
+      '@dynage/contents':
+        specifier: workspace:*
+        version: link:../contents
       '@eslint/js':
         specifier: ^9.39.2
         version: 9.39.4

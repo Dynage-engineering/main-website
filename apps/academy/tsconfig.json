@@ -17,6 +17,9 @@
       ],
       "@dynage/ui/*": [
         "../../packages/ui/src/*"
+      ],
+      "@dynage/contents/*": [
+        "../../packages/contents/*"
       ]
     },
     "types": [

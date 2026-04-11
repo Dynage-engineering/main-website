@@ -5,32 +5,29 @@ import SectionSpacer from "@dynage/ui/astro/SectionSpacer";
 import StatsGrid from "@dynage/ui/astro/StatsGrid";
 import IndustryCard from "@dynage/ui/astro/IndustryCard";
 import { client } from "@dynage/contents/client";
-import { MEETING_URL, SITE } from "../consts";
+import { SITE } from "../consts";
 
 // Fetch dynamic page content from Sanity
 const pageData = await client.fetch(`{
-  "content": *[_type == "siteContent" && page == "Finance"]{
+  "content": *[_type == "siteContent" && page == "Studio"]{
     section,
     title,
     description
-  },
-  "meetingUrl": *[_type == "systemUrl" && (name match "Finance" || name match "Trading")][0].url
+  }
 }`);
 
 const hero = pageData.content.find((s: any) => s.section === "Hero") || {
-  title: "Quantitatively Powered <span class='text-blue-600'>Wealth Management</span>",
-  description: "Leveraging cutting-edge quantitative methods to dominate Forex, Gold, and Crypto markets. We bridge institutional strategy with high-yield performance."
+  title: "Crafting High-Performance <span class='text-blue-600'>Digital Products</span>",
+  description: "Dynage Studio is your partner in custom software development and business process optimization. We build scalable SaaS, Ecommerce, and Fintech solutions."
 };
 
-const valueProp = pageData.content.find((s: any) => s.section === "ValueProp") || {
-  title: "Why Trade with Dynage?",
-  description: "Our proprietary algorithms and risk-management systems ensure consistent growth in volatile environments. We don't just follow the market—we lead it."
+const mission = pageData.content.find((s: any) => s.section === "Mission") || {
+  title: "Precision Engineering for the Web",
+  description: "From concept to deployment, we deliver bespoke software that drives efficiency and growth for niche markets in SaaS, Finance, and Real Estate."
 };
-
-const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 ---
 
-<Layout title={SITE.TITLE}>
+<Layout title={SITE.TITLE} meta={{title: SITE.TITLE, description: SITE.DESCRIPTION, image: ""}} settings={{}}>
 	<section
 		class="py-20 flex flex-col items-center justify-center text-center my-16"
 	>
@@ -46,16 +43,16 @@ const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 			</p>
 			<div class="flex gap-4 justify-center">
 				<a
-					href="/trading"
+					href="/work"
 					class="px-8 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium transition-transform hover:scale-105"
 				>
-					Start Trading
+					View Our Work
 				</a>
 				<a
-					href={dynamicMeetingUrl}
+					href="#contact"
 					class="px-8 py-3 border border-black/10 dark:border-white/10 rounded-full font-medium transition-transform hover:scale-105"
 				>
-					Consult an Expert
+					Start Your Project
 				</a>
 			</div>
 		</div>
@@ -65,10 +62,10 @@ const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 		<Section fullWidthBorder>
 			<div class="max-w-4xl mx-auto text-center mb-16 px-4">
 				<h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
-					Instruments of <span class="text-blue-600">Choice</span>
+					Our <span class="text-blue-600">Niches</span>
 				</h2>
 				<p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-					Diversified exposure across high-liquidity markets, managed by intelligence.
+					Expertise in high-growth, high-complexity digital ecosystems.
 				</p>
 			</div>
 			<div class="px-4">
@@ -81,17 +78,17 @@ const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 		<Section variant="dark" fullWidthBorder={false}>
 			<div class="max-w-5xl mx-auto text-center py-20 px-8">
 				<h2 class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-8">
-					{valueProp.title}
+					{mission.title}
 				</h2>
                 <p class="text-xl text-gray-400 mb-10 max-w-3xl mx-auto">
-                    {valueProp.description}
+                    {mission.description}
                 </p>
 				<div class="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
 			</div>
 		</Section>
 
 		<div class="bg-gray-50 dark:bg-black/50 py-12">
-			<StatsGrid entryName="finance-perf" />
+			<StatsGrid entryName="studio-stats" />
 		</div>
 
 		<SectionSpacer size="lg" />

@@ -1,9 +1,7 @@
 ---
 import { getCollection } from "astro:content"
-import PageLayout from "@layouts/PageLayout.astro"
-import TopLayout from "@layouts/TopLayout.astro"
-import BottomLayout from "@layouts/BottomLayout.astro"
-import { WORK } from "@consts"
+import Layout from "../../layouts/Layout.astro"
+import Section from "@dynage/ui/astro/Section.astro"
 
 const collection = await getCollection("roadmap")
 
@@ -18,42 +16,50 @@ const work = await Promise.all(
 
 function formatWorkDate(input: Date | string) {
   if (typeof input === "string") return input
-
-  const month = input.toLocaleDateString("en-US", {
-    month: "short",
-  })
-
+  const month = input.toLocaleDateString("en-US", { month: "short" })
   const year = new Date(input).getFullYear()
   return `${month} ${year}`
 }
 ---
 
-<PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
-  <TopLayout>
-    <div class="animate page-heading">
-      {WORK.TITLE}
+<Layout title="Roadmap | Dynage Research">
+  <section class="pt-32 pb-20 text-center">
+    <div class="max-w-4xl mx-auto px-4">
+      <h1 class="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-none">
+        Innovation <br />
+        <span class="text-blue-600">Roadmap</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+        Tracking our journey through the frontier of AI, Robotics, and IoT systems.
+      </p>
     </div>
-  </TopLayout>
-  <BottomLayout>
-    <ul>
-      { 
-        work.map((entry) => (
-          <li class="animate border-b border-black/10 dark:border-white/25 mt-4 py-8 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
-            <div class="text-sm uppercase mb-4">
-              {formatWorkDate(entry.data.dateStart)} - {formatWorkDate(entry.data.dateEnd)}
-            </div>
-            <div class="text-black dark:text-white font-semibold">
-              {entry.data.projectName}  - {entry.data.niche}
-            </div>
-            <div class="text-sm font-semibold">
-              {entry.data.industry}
-            </div>
-            <article class="prose dark:prose-invert">
-              <entry.Content />
-            </article>
-          </li>
-        ))
-      }
-    </ul>
-  </BottomLayout>
-</PageLayout>
+  </section>
+
+  <main class="pb-32">
+    <Section>
+      <div class="max-w-3xl mx-auto px-4">
+        <ul class="space-y-16">
+          { 
+            work.map((entry) => (
+              <li class="relative pl-8 border-l-2 border-blue-600/20 last:border-none pb-12">
+                <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-600"></div>
+                <div class="text-xs uppercase font-black tracking-widest text-blue-600 mb-2">
+                  {formatWorkDate(entry.data.dateStart)} - {formatWorkDate(entry.data.dateEnd)}
+                </div>
+                <h3 class="text-2xl font-black mb-2 text-black dark:text-white">
+                  {entry.data.projectName}
+                </h3>
+                <div class="text-sm font-bold uppercase tracking-widest text-gray-400 mb-6">
+                  {entry.data.industry} • {entry.data.niche}
+                </div>
+                <article class="prose dark:prose-invert max-w-none">
+                  <entry.Content />
+                </article>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </Section>
+  </main>
+</Layout>

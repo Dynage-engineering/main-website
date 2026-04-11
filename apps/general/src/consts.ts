@@ -6,9 +6,9 @@ export const SITE = {
 
 export const LINKS = [
   { TEXT: "Home", HREF: "/" },
-  { TEXT: "Services", HREF: "#services" },
-  { TEXT: "Projects", HREF: "#projects" },
-  { TEXT: "Process", HREF: "#process" },
+  { TEXT: "Products", HREF: "/products" },
+  { TEXT: "Projects", HREF: "/projects" },
+  { TEXT: "Partners", HREF: "/partners" },
 ]
 
 export const LOGO = {

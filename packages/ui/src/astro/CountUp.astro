@@ -1,0 +1,69 @@
+---
+interface Props {
+    start: number;
+    end: number;
+    unit: string;
+    by?: number;
+    class?: string;
+}
+const { start, end, unit, by = 1, class: _class } = Astro.props;
+const randId = 'countUp'+performance.now()
+---
+<span data-count-up id={randId} data-cu-by={by} data-cu-start={start} data-cu-end={end} data-cu-unit={unit} class={_class} style={`min-width: ${end.toString().length + (unit != null ? 2 : 1)}ex;`}>
+    {start}{unit}
+</span>
+<script>
+    class CountUp {
+        el: HTMLSpanElement;
+        startValue: number;
+        endValue: number;
+        unit: string;
+        duration: number = 2000;
+        startTime: number | null = null;
+
+        constructor(el: HTMLSpanElement) {
+            this.el = el;
+            this.startValue = parseFloat(el.dataset.cuStart || "0");
+            this.endValue = parseFloat(el.dataset.cuEnd || "0");
+            this.unit = el.dataset.cuUnit || "";
+        }
+
+        animate(timestamp: number) {
+            if (!this.startTime) this.startTime = timestamp;
+            const progress = Math.min((timestamp - this.startTime) / this.duration, 1);
+            
+            // Ease out quad
+            const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            
+            const current = this.startValue + (this.endValue - this.startValue) * easeProgress;
+            
+            const isInt = this.endValue % 1 === 0;
+            this.el.textContent = current.toFixed(isInt ? 0 : 1) + this.unit;
+
+            if (progress < 1) {
+                requestAnimationFrame((t) => this.animate(t));
+            }
+        }
+
+        start() {
+            requestAnimationFrame((t) => this.animate(t));
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = new CountUp(entry.target as HTMLSpanElement);
+                counter.start();
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('[data-count-up]').forEach(el => observer.observe(el));
+</script>
+<style>
+    span {
+        font-variant-numeric: tabular-nums;
+    }
+</style>
