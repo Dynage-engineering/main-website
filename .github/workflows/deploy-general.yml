@@ -32,6 +32,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: dynage-general
+          projectName: general
           directory: apps/general/dist
           gitHubToken: ${{ secrets.GH_TOKEN }}
