@@ -1,4 +1,4 @@
-import {createClient} from '@sanity/client'
+import { createClient } from '@sanity/client'
 
 export const client = createClient({
   projectId: '8ajn3uhd',
