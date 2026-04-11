@@ -17,13 +17,14 @@ interface Props {
   image: string;
   level: string;
   duration: string;
+  slug: string;
   price?: string;
 }
 
-const { title, description, image, level, duration, price } = Astro.props;
+const { title, description, image, level, duration, slug, price } = Astro.props;
 ---
 
-<a href={`/courses/${title.toLowerCase().replace(" ", "-")}`}>
+<a href={`/courses/${slug}`}>
   <Card className="relative mx-auto w-full max-w-sm pt-0">
     <div class="absolute inset-0 z-30 aspect-video bg-black/35"></div>
     <img

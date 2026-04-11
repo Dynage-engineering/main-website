@@ -4,10 +4,6 @@ import { Container } from "@dynage/ui/components/container";
 import CourseCard from "../../components/CourseCard.astro";
 import { client } from "@dynage/contents/client";
 import { urlFor } from "@dynage/contents/image";
-import { COURSES } from "../../consts";
-
-import type { SanityDocument } from "@sanity/client";
-import { sanityClient } from "sanity:client";
 
 // Fetch courses from Sanity with more robust description extraction
 const sanityCourses = await client.fetch(`*[_type == "course"]{
@@ -19,19 +15,6 @@ const sanityCourses = await client.fetch(`*[_type == "course"]{
   "description": coalesce(array::join(syllabus[0].children[].text, ""), "No description available")
 }`);
 
-console.log({ sanityCourses });
-
-// Use sanity courses if available, fallback to static data
-const displayCourses =
-  sanityCourses && sanityCourses.length > 0
-    ? sanityCourses
-    : COURSES.map((c) => ({
-        title: c.TITLE,
-        description: c.DESCRIPTION,
-        image: c.IMAGE,
-        level: c.LEVEL,
-        duration: c.DURATION,
-      }));
 ---
 
 <Layout title="Our Courses | Dynage Academy">
@@ -47,10 +30,11 @@ const displayCourses =
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {
-          displayCourses.map((course: any) => (
+          sanityCourses?.filter((c: any) => c.slug).map((course: any) => (
             <CourseCard
               title={course.title}
               description={course.description}
+              slug={course.slug}
               image={
                 course.image?.asset
                   ? urlFor(course.image).width(400).url()
@@ -59,7 +43,7 @@ const displayCourses =
               level={course.level}
               duration={course.duration}
             />
-          ))
+          )) || <p>No courses found</p>
         }
       </div>
     </Container>

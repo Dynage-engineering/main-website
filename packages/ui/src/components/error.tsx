@@ -5,7 +5,7 @@ const Error = () => {
         <div className='flex min-h-[90vh] flex-col-reverse items-center justify-center gap-12 px-6 lg:flex-row lg:gap-24'>
             {/* Left Section: Text Content */}
             <div className='flex max-w-md flex-col justify-center items-start md:items-center text-left'>
-                <h2 className='mb-4 text-6xl font-black tracking-tight text-blue-600 dark:text-blue-400'>Whoops!</h2>
+                <h2 className='mb-4 text-6xl font-black tracking-tight text-primary dark:text-primary'>Whoops!</h2>
                 <h3 className='mb-4 text-4xl font-bold leading-tight'>Something went wrong</h3>
                 <p className='text-muted-foreground mb-8 text-lg leading-relaxed'>
                     The page you&apos;re looking for isn&apos;t found. We suggest you head back to the home page to find your way.
