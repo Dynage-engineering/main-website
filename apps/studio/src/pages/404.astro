@@ -1,12 +1,6 @@
 ---
-import { getSettings } from "@lib/storyblokApi";
-import Layout from "@layouts/Layout.astro";
-
-const settings = await getSettings("default");
-
-if(!settings || settings.setup) {
-  return Astro.redirect("/setup");
-}
+import Layout from "../layouts/Layout.astro";
+import Error from "@dynage/ui/components/error";
 
 const meta = {
   title: "404",
@@ -16,11 +10,6 @@ const meta = {
 };
 ---
 
-<Layout meta={meta} {settings}>
-  <div class="grid min-h-svh w-full place-items-center">
-    <div class="richtext text-center">
-      <h1>404</h1>
-      <p>Page Not Found</p>
-    </div>
-  </div>
+<Layout title="404 | Dynage Studio">
+  <Error />
 </Layout>

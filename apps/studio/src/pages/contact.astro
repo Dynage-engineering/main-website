@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "@dynage/ui/astro/Section.astro";
+import { client } from "@dynage/contents/client";
+import { ChevronRightCircleIcon } from "lucide-react";
+
+const pageInfo =
+  await client.fetch(`*[_type == "siteContent" && page == "Studio" && section == "Contact"][0] {
+  title,
+  description
+}`);
+
+const contact = pageInfo || {
+  title: "Let's Build Something <span class='text-blue-600'>Exceptional</span>",
+  description:
+    "Ready to optimize your business operations or launch a new digital product? Our engineering team is ready to discuss your vision.",
+};
+---
+
+<Layout title="Contact | Dynage Studio">
+  <section class="pt-32 pb-32 text-center">
+    <div class="max-w-4xl mx-auto px-4">
+      <h1
+        class="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-none uppercase"
+        set:html={contact.title}
+      />
+      <p
+        class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium mb-16"
+      >
+        {contact.description}
+      </p>
+
+      <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+        <a
+          href="https://zcal.co/dynage/30min"
+          target="_blank"
+          class="group w-full md:w-auto px-12 py-5 bg-blue-600 text-white rounded-full font-black uppercase tracking-widest transition-all hover:bg-blue-700 hover:scale-105 flex items-center gap-2 justify-center"
+        >
+          Book a Strategy Call
+          <ChevronRightCircleIcon />
+        </a>
+        <a
+          href="mailto:hello@dynage.technology"
+          class="w-full md:w-auto px-12 py-5 border-2 border-black/10 dark:border-white/10 rounded-full font-black uppercase tracking-widest transition-all hover:border-blue-600 hover:text-blue-600"
+        >
+          Email Us
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Section variant="dark">
+    <div class="max-w-4xl mx-auto py-20 px-8 text-center">
+      <h2
+        class="text-2xl font-black uppercase tracking-widest text-gray-400 mb-8"
+      >
+        Our Headquarters
+      </h2>
+      <p class="text-3xl font-bold mb-4">Delaware, USA (HQ) | Lagos, Nigeria</p>
+      <p class="text-gray-400 font-medium">
+        Serving global partners across SaaS, Finance, and Real Estate.
+      </p>
+    </div>
+  </Section>
+</Layout>

@@ -17,7 +17,6 @@
     "typecheck": "astro check"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.1.8",
     "@astrojs/react": "^4.4.2",
     "@dynage/contents": "workspace:*",
     "@dynage/ui": "workspace:*",

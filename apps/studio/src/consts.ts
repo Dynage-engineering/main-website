@@ -1,14 +1,14 @@
 export const SITE = {
   TITLE: "Dynage Studio",
-  DESCRIPTION: "Creative engineering and design studio.",
+  DESCRIPTION: "Custom Software Development & Business Process Optimization.",
   URL: "https://studio.dynage.technology",
 }
 
 export const LINKS = [
   { TEXT: "Home", HREF: "/" },
-  { TEXT: "Work", HREF: "/work" },
   { TEXT: "Services", HREF: "/services" },
-  { TEXT: "Contact", HREF: "#contact" },
+  { TEXT: "Products", HREF: "/products" },
+  { TEXT: "Contact", HREF: "/contact" },
 ]
 
 export const LOGO = {

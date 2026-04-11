@@ -1,9 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Section from "@dynage/ui/astro/Section";
-import SectionSpacer from "@dynage/ui/astro/SectionSpacer";
-import StatsGrid from "@dynage/ui/astro/StatsGrid";
-import IndustryCard from "@dynage/ui/astro/IndustryCard";
+import Section from "@dynage/ui/astro/Section.astro";
+import SectionSpacer from "@dynage/ui/astro/SectionSpacer.astro";
+import StatsGrid from "@dynage/ui/astro/StatsGrid.astro";
+import IndustryCard from "@dynage/ui/astro/IndustryCard.astro";
 import { client } from "@dynage/contents/client";
 import { SITE } from "../consts";
 
@@ -16,25 +16,25 @@ const pageData = await client.fetch(`{
   }
 }`);
 
-const hero = pageData.content.find((s: any) => s.section === "Hero") || {
+const hero = pageData.content?.find((s: any) => s.section === "Hero") || {
   title: "Crafting High-Performance <span class='text-blue-600'>Digital Products</span>",
   description: "Dynage Studio is your partner in custom software development and business process optimization. We build scalable SaaS, Ecommerce, and Fintech solutions."
 };
 
-const mission = pageData.content.find((s: any) => s.section === "Mission") || {
+const mission = pageData.content?.find((s: any) => s.section === "Mission") || {
   title: "Precision Engineering for the Web",
   description: "From concept to deployment, we deliver bespoke software that drives efficiency and growth for niche markets in SaaS, Finance, and Real Estate."
 };
 ---
 
-<Layout title={SITE.TITLE} meta={{title: SITE.TITLE, description: SITE.DESCRIPTION, image: ""}} settings={{}}>
+<Layout title="Home">
 	<section
 		class="py-20 flex flex-col items-center justify-center text-center my-16"
 	>
 		<div class="max-w-4xl px-4">
 			<h1
 				class="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-[1.1]"
-                set:html={hero.title}
+        set:html={hero.title}
 			/>
 			<p
 				class="text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto"
@@ -43,14 +43,14 @@ const mission = pageData.content.find((s: any) => s.section === "Mission") || {
 			</p>
 			<div class="flex gap-4 justify-center">
 				<a
-					href="/work"
-					class="px-8 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium transition-transform hover:scale-105"
+					href="/projects"
+					class="px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-black uppercase tracking-tighter transition-transform hover:scale-105"
 				>
 					View Our Work
 				</a>
 				<a
-					href="#contact"
-					class="px-8 py-3 border border-black/10 dark:border-white/10 rounded-full font-medium transition-transform hover:scale-105"
+					href="/contact"
+					class="px-8 py-4 border border-black/10 dark:border-white/10 rounded-full font-black uppercase tracking-tighter transition-transform hover:scale-105"
 				>
 					Start Your Project
 				</a>
@@ -61,10 +61,10 @@ const mission = pageData.content.find((s: any) => s.section === "Mission") || {
 	<main>
 		<Section fullWidthBorder>
 			<div class="max-w-4xl mx-auto text-center mb-16 px-4">
-				<h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
+				<h2 class="text-4xl md:text-6xl font-black tracking-tighter mb-6 uppercase">
 					Our <span class="text-blue-600">Niches</span>
 				</h2>
-				<p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+				<p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium">
 					Expertise in high-growth, high-complexity digital ecosystems.
 				</p>
 			</div>
@@ -76,18 +76,18 @@ const mission = pageData.content.find((s: any) => s.section === "Mission") || {
 		<SectionSpacer size="md" />
 
 		<Section variant="dark" fullWidthBorder={false}>
-			<div class="max-w-5xl mx-auto text-center py-20 px-8">
-				<h2 class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-8">
+			<div class="max-w-5xl mx-auto text-center py-24 px-8">
+				<h2 class="text-3xl md:text-5xl font-black tracking-tighter leading-tight mb-8 uppercase">
 					{mission.title}
 				</h2>
-                <p class="text-xl text-gray-400 mb-10 max-w-3xl mx-auto">
-                    {mission.description}
-                </p>
-				<div class="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
+        <p class="text-xl text-gray-400 mb-12 max-w-3xl mx-auto font-medium">
+            {mission.description}
+        </p>
+				<div class="w-24 h-2 bg-blue-600 mx-auto rounded-full"></div>
 			</div>
 		</Section>
 
-		<div class="bg-gray-50 dark:bg-black/50 py-12">
+		<div class="bg-gray-50 dark:bg-black/50 py-20">
 			<StatsGrid entryName="studio-stats" />
 		</div>
 

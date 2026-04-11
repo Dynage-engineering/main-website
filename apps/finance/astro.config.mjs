@@ -6,8 +6,6 @@ import react from "@astrojs/react"
 
 import sanity from "@sanity/astro";
 
-import cloudflare from "@astrojs/cloudflare";
-
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -19,6 +17,4 @@ export default defineConfig({
     dataset: "production",
     // useCdn: false, // for static builds
   })],
-
-  adapter: cloudflare(),
 })

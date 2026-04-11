@@ -1,0 +1,48 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "@dynage/ui/astro/Section.astro";
+import { client } from "@dynage/contents/client";
+import { PortableText } from "astro-portabletext";
+
+const services = await client.fetch(`*[_type == "siteContent" && page == "Studio" && section == "Service"] {
+  title,
+  description,
+  content
+}`);
+
+---
+
+<Layout title="Services | Dynage Studio">
+  <section class="pt-32 pb-20 text-center">
+    <div class="max-w-4xl mx-auto px-4">
+      <h1 class="text-5xl md:text-8xl font-black mb-6 tracking-tighter leading-none uppercase">
+        Our <span class="text-blue-600">Expertise</span>
+      </h1>
+      <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium">
+        Tailored engineering and design services to optimize your business and accelerate growth.
+      </p>
+    </div>
+  </section>
+
+  <main class="pb-32">
+    <Section>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+        {services.map((service: any) => (
+          <div class="p-12 bg-gray-50 dark:bg-zinc-900 rounded-[3rem] border border-gray-100 dark:border-zinc-800">
+            <h3 class="text-3xl font-black tracking-tighter mb-6 uppercase text-blue-600">
+              {service.title}
+            </h3>
+            <p class="text-lg text-gray-600 dark:text-gray-400 font-medium mb-8 leading-relaxed">
+              {service.description}
+            </p>
+            {service.content && (
+              <div class="prose dark:prose-invert max-w-none text-sm font-medium">
+                <PortableText value={service.content} />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </Section>
+  </main>
+</Layout>
