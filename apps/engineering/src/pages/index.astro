@@ -1,44 +1,122 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Section from '../components/Section.astro';
-import { getCollection } from 'astro:content';
-import SectionSpacer from '../components/SectionSpacer.astro';
-import StatsGrid from '../components/StatsGrid.astro';
-import InvestorGrid from '../components/InvestorGrid.astro';
-import IndustryCard from '../components/IndustryCard.astro';
-import { MeetingUrl } from '../consts';
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/Section.astro";
+import SectionSpacer from "../components/SectionSpacer.astro";
+import StatsGrid from "../components/StatsGrid.astro";
+import InvestorGrid from "@dynage/ui/astro/InvestorGrid.astro";
+import IndustryCard from "../components/IndustryCard.astro";
+import { client } from "@dynage/contents/client";
+import { MEETING_URL } from "../consts";
 
+// Fetch dynamic page content from Sanity
+const pageData = await client.fetch(`{
+  "content": *[_type == "siteContent" && page == "Engineering"]{
+    section,
+    title,
+    description
+  },
+  "meetingUrl": *[_type == "systemUrl" && (name match "Scheduling" || name match "Neophyte")][0].url
+}`);
+
+const hero = pageData.content.find((s: any) => s.section === "Hero") || {
+	title: "Engineering Intelligent Systems for a Smarter World",
+	description:
+		"We design and develop advanced devices and integrated automation systems that drive process optimization across Health, Real Estate, Agriculture, and Energy industries.",
+};
+
+const mission = pageData.content.find((s: any) => s.section === "Mission") || {
+	title: '"The future is automated. Our mission is to build the underlying infrastructure that makes that intelligence accessible."',
+};
+
+const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 ---
 
-<Layout title="Welcome to Neophyte">
-	<Header gridBg>
-		<h1 class="text-10 leading-[1.2] lg:text-20">Engineering <span class="font-bold">Intelligent Systems</span>  for a Smarter, More Efficient World</h1>
-		<p class=" w-90% mx-auto mt-5">At Neophyte, we design and develop advanced devices and integrated automation systems that drive process optimization across the Health, Real Estate, Agriculture, and Energy industries.</p>
-		<div class="my-4 flex justify-center gap-2"> 
-					<button class="bg-black p-3 text-white w-fit text-sm">Explore Our Solutions</button>
-					<a href=`${MeetingUrl}` class="bg-white border border-black p-3 text-black w-fit text-sm">Partner With Us</a>
-
-		</div>
-	</Header>
-	<main>
-		<Section index fullWidthBorder>
-			<h2 class="title my-3">INDUSTRIES WE SERVE</h2>
-					<IndustryCard  />
-		</Section>
-		<SectionSpacer size="md" />
-		<Section fullWidthBorder={false}>
-			<h2 class="text-xl my-10">Our projects are trusted. By everyone? You bet! Names you recognize? Probably! Used all over the world? Absolutely!</h2>
-		</Section>
-		<StatsGrid entryName='downloads' />
-		<SectionSpacer size="md" />
-		<Section index source="investors.md" fullWidthBorder>
-			<div class="pb-12.5">
-				<h2 class="title">Some of our Partners</h2>
-				<p class="subtitle-small md:w-[50%]">There's literally dozens of them, and they all want to be listed below to get some sort of credit for our work.</p>
+<Layout title="Dynage Engineering | Forging the Future of Automation and IoT">
+	<section
+		class="py-20 flex flex-col items-center justify-center text-center my-16"
+	>
+		<div class="max-w-4xl px-4">
+			<h1
+				class="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-[1.1]"
+			>
+				{hero.title}
+			</h1>
+			<p
+				class="text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto"
+			>
+				{hero.description}
+			</p>
+			<div class="flex gap-4 justify-center">
+				<a
+					href="/solutions"
+					class="px-8 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium transition-transform hover:scale-105"
+				>
+					Explore Solutions
+				</a>
+				<a
+					href={dynamicMeetingUrl}
+					class="px-8 py-3 border border-black/10 dark:border-white/10 rounded-full font-medium transition-transform hover:scale-105"
+				>
+					Partner With Us
+				</a>
 			</div>
-			<InvestorGrid />
+		</div>
+	</section>
+
+	<main>
+		<Section fullWidthBorder>
+			<div class="max-w-4xl mx-auto text-center mb-16 px-4">
+				<h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
+					Industries we <span class="text-blue-600">Elevate</span>
+				</h2>
+				<p
+					class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+				>
+					We engineer tailored solutions for complex industrial
+					challenges, driving efficiency and automation where it
+					matters most.
+				</p>
+			</div>
+			<div class="px-4">
+				<IndustryCard />
+			</div>
 		</Section>
-		<SectionSpacer />
+
+		<SectionSpacer size="md" />
+
+		<Section variant="dark" fullWidthBorder={false}>
+			<div class="max-w-5xl mx-auto text-center py-20 px-8">
+				<h2
+					class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-8"
+				>
+					{mission.title}
+				</h2>
+				<div class="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
+			</div>
+		</Section>
+
+		<div class="bg-gray-50 dark:bg-black/50 py-12">
+			<StatsGrid entryName="downloads" />
+		</div>
+
+		<SectionSpacer size="md" />
+
+		<Section fullWidthBorder>
+			<div class="max-w-4xl mx-auto text-center mb-20 px-4">
+				<h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
+					Strategic <span class="text-blue-600">Partnerships</span>
+				</h2>
+				<p
+					class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+				>
+					Collaborating with world-class organizations to push the
+					boundaries of IoT and system engineering.
+				</p>
+			</div>
+			<div class="px-4">
+				<InvestorGrid />
+			</div>
+		</Section>
+		<SectionSpacer size="lg" />
 	</main>
 </Layout>

@@ -1,34 +1,58 @@
 ---
-import Footer from "../components/ui/Footer.astro";
-import Navbar from "../components/ui/Navbar.astro";
-import MainHead from "./MainHead.astro";
-import "../styles/globals.css";
+import "@dynage/ui/globals.css";
+import { ThemedHeader } from "@dynage/ui/components/themed-header";
+import { Footer } from "@dynage/ui/components/footer";
+import { SITE, LINKS, LOGO } from "../consts";
 
-const { ...props } = Astro.props;
+const { title, description } = Astro.props;
 ---
 
+<!doctype html>
 <html lang="en">
-  <MainHead {...props} />
-  <style>
-    html.lenis {
-      height: auto;
-    }
-    .lenis.lenis-smooth {
-      scroll-behavior: auto;
-    }
-    .lenis.lenis-smooth [data-lenis-prevent] {
-      overscroll-behavior: contain;
-    }
-    .lenis.lenis-stopped {
-      overflow: hidden;
-    }
-  </style>
-  <script src="../utils/lenis"></script>
-  <body>
-    <main>
-      <Navbar />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description || SITE.DESCRIPTION} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title || SITE.TITLE}</title>
+    <script is:inline>
+      const theme = (() => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          return "dark";
+        }
+        return "light";
+      })();
+
+      if (theme === "light") {
+        document.documentElement.classList.remove("dark");
+      } else {
+        document.documentElement.classList.add("dark");
+      }
+      window.localStorage.setItem("theme", theme);
+    </script>
+  </head>
+  <body
+    class="bg-white dark:bg-black text-black dark:text-white transition-colors duration-300"
+  >
+    <ThemedHeader
+      client:load
+      site={SITE}
+      links={LINKS}
+      logo={LOGO}
+      pathname={Astro.url.pathname}
+    />
+    <main class="pt-16">
       <slot />
-      <Footer />
     </main>
+    <Footer client:load site={SITE} />
   </body>
 </html>
+
+<style is:global></style>

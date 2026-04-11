@@ -1,0 +1,47 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Section from "@dynage/ui/astro/Section.astro";
+import SectionSpacer from "@dynage/ui/astro/SectionSpacer.astro";
+import InvestorGrid from "@dynage/ui/astro/InvestorGrid.astro";
+---
+
+<MainLayout title="Partners | Dynage Technologies">
+  <main class="pb-32">
+    <Section fullWidthBorder>
+      <div class="max-w-4xl mx-auto text-center mb-16 px-4">
+        <h2 class="text-4xl md:text-7xl font-black tracking-tighter mb-6">
+          Strategic <span class="text-blue-600">Partnerships</span>
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium">
+          Collaborating with world-class organizations to push the boundaries of industrial and digital intelligence.
+        </p>
+      </div>
+      <div class="px-4">
+        <InvestorGrid />
+      </div>
+    </Section>
+
+    <!-- Partnership Inquiry -->
+    <Section
+      variant="dark"
+      class="rounded-[4rem] mx-4 mb-32 overflow-hidden relative text-center"
+    >
+      <div class="max-w-4xl mx-auto py-24 px-8">
+        <h2 class="text-4xl md:text-7xl font-black mb-8 tracking-tighter">
+          Interested in <br />
+          <span class="text-blue-500">Partnering?</span>
+        </h2>
+        <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+          We are always looking for visionary organizations to push the
+          boundaries of technology together.
+        </p>
+        <a
+          href="mailto:hello@dynage.technology"
+          class="inline-flex px-12 py-5 bg-white text-black rounded-full font-black text-lg transition-transform hover:scale-110"
+        >
+          Email Our Strategic Team
+        </a>
+      </div>
+    </Section>
+  </div>
+</MainLayout>

@@ -1,5 +1,7 @@
 ---
-import Footer from "./Footer.astro";
+import "@dynage/ui/globals.css";
+import { ThemedHeader } from "@dynage/ui/components/themed-header";
+import { Footer as SharedFooter } from "@dynage/ui/components/footer";
 import Sidebar from "@components/navigation/Sidebar.vue";
 import Link from "@components/navigation/Link.astro";
 import LangSwitch from "@components/navigation/LangSwitch.vue";
@@ -14,7 +16,7 @@ import { SEO } from "astro-seo";
 import { SITE_LANG } from "astro:env/client";
 import { useTranslations, getLangFromUrl } from "@lib/translate";
 import { ClientRouter } from "astro:transitions";
-import "@styles/globals.css";
+import { SITE, LOGO } from "../consts";
 
 interface Meta {
   title: string;
@@ -35,45 +37,58 @@ const hex2rgb = (hex: string) => {
   return `${r} ${g} ${b}`;
 };
 
-const { settings, meta, localeUrls, bridge } = Astro.props;
+const { settings = {}, meta = { title: SITE.TITLE, description: SITE.DESCRIPTION, image: "" }, localeUrls, bridge } = Astro.props;
 const {
-  main_menu,
-  font_body,
-  font_headings,
-  surface_menu,
-  surface_page,
-  font_weight_body,
-  font_weight_headings,
-  dark_fg,
-  dark_bg,
-  light_fg,
-  light_bg,
-  primary_fg,
-  primary_bg,
-  secondary_fg,
-  secondary_bg,
-  accent_fg,
-  accent_bg,
-  info_fg,
-  info_bg,
-  warning_fg,
-  warning_bg,
-  danger_fg,
-  danger_bg,
-  success_fg,
-  success_bg,
-  muted_fg,
-  muted_bg,
-  contact_form,
-  tiny_analytics_id,
-  radius_media = "1",
-  radius_input = "0.2",
+  main_menu = null,
+  font_body = "--font-inter",
+  font_headings = "--font-inter",
+  surface_menu = "surface-light",
+  surface_page = "surface-light",
+  font_weight_body = "400",
+  font_weight_headings = "700",
+  dark_fg = { color: "#ffffff" },
+  dark_bg = { color: "#000000" },
+  light_fg = { color: "#000000" },
+  light_bg = { color: "#ffffff" },
+  primary_fg = { color: "#ffffff" },
+  primary_bg = { color: "#2563eb" }, // Blue-600
+  secondary_fg = { color: "#ffffff" },
+  secondary_bg = { color: "#1e293b" },
+  accent_fg = { color: "#ffffff" },
+  accent_bg = { color: "#3b82f6" },
+  info_fg = { color: "#ffffff" },
+  info_bg = { color: "#0ea5e9" },
+  warning_fg = { color: "#ffffff" },
+  warning_bg = { color: "#f59e0b" },
+  danger_fg = { color: "#ffffff" },
+  danger_bg = { color: "#ef4444" },
+  success_fg = { color: "#ffffff" },
+  success_bg = { color: "#10b981" },
+  muted_fg = { color: "#64748b" },
+  muted_bg = { color: "#f1f5f9" },
+  contact_form = [],
+  tiny_analytics_id = null,
+  radius_media = "1.5",
+  radius_input = "0.75",
 } = settings;
 const lang = getLangFromUrl(Astro.url);
 
 const t = useTranslations(lang);
 
-const cssColors: { [key: string]: Color } = {
+const hardcodedLinks = [
+  { TEXT: "Home", HREF: "/" },
+  { TEXT: "Work", HREF: "/work" },
+  { TEXT: "Services", HREF: "/services" },
+  { TEXT: "About", HREF: "/about" }
+];
+
+// Map Storyblok menu to shared Header format
+const mappedLinks = main_menu?.map((link: any) => ({
+  TEXT: link.label || link.name || "Link",
+  HREF: link.link?.cached_url || link.link?.url || "#"
+})) || hardcodedLinks;
+
+const cssColors: { [key: string]: any } = {
   dark_fg,
   dark_bg,
   light_fg,
@@ -96,12 +111,14 @@ const cssColors: { [key: string]: Color } = {
   muted_bg,
 };
 
-let cssColorVars: ColorVars = {};
+let cssColorVars: any = {};
 
 Object.keys(cssColors).forEach((key) => { 
   const newKey = key.replaceAll("_", "-");
-  const newValue = hex2rgb(cssColors[key].color);
-  cssColorVars[newKey] = newValue;
+  if (cssColors[key]?.color) {
+    const newValue = hex2rgb(cssColors[key].color);
+    cssColorVars[newKey] = newValue;
+  }
 });
 
 const labels = {
@@ -190,6 +207,24 @@ let socialImage = meta.image + "/m/1200x630/smart/filters:format(png)";
         }
       }
     </style>
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      })();
+    
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+      window.localStorage.setItem('theme', theme);
+    </script>
     {
       bridge && (
         <script
@@ -211,87 +246,24 @@ let socialImage = meta.image + "/m/1200x630/smart/filters:format(png)";
       )
     }
   </head>
-  <body class={`${surface_page || ""}`}>
+  <body class={`bg-white dark:bg-black text-black dark:text-white transition-colors duration-300 ${surface_page || ""}`}>
     {bridge && <SbBridge client:load />}
-    <header
-      class="pointer-events-none fixed inset-x-0 top-0 z-50 transition-all duration-500"
-    >
-      <nav class="relative z-50 flex items-center justify-between gap-3 p-3">
-        <a href="/" aria-label="home" class="pointer-events-auto">
-          <Icon name="logo" is:inline class="h-10 w-auto " />
-        </a>
+    
+    <ThemedHeader
+      client:load
+      site={SITE}
+      links={mappedLinks}
+      logo={LOGO}
+      text="STUDIO"
+      pathname={Astro.url.pathname}
+    />
 
-        <div class="flex gap-2">
-          {
-            localeUrls && localeUrls.length > 1 && (
-              <div class="pointer-events-auto grid place-items-center">
-                <LangSwitch
-                  client:idle
-                  {localeUrls}
-                  {lang}
-                  surface={surface_menu}
-                />
-              </div>
-            )
-          }
-
-          <ul
-          class={`${surface_menu} rounded-input pointer-events-auto hidden flex-wrap items-center gap-2 p-1 shadow-md sm:flex`}
-            
-          >
-            {
-              main_menu &&
-                main_menu.length > 0 &&
-                main_menu.map((link:LinkStoryblok) => (
-                  <li>
-                    <Link blok={link} className="btn-nav" />
-                  </li>
-                ))
-            }
-          </ul>
-
-          <Sidebar {labels} surface={surface_menu} client:idle>
-              <button class="p-2" slot="icon" aria-label="menu">
-                <svg
-                  width="30"
-                  height="30"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 30 30"
-                >
-                  <path stroke-width="2" stroke="currentColor" d="M4 8 L26 8"
-                  ></path>
-                  <path stroke-width="2" stroke="currentColor" d="M4 15 L26 15"
-                  ></path>
-                  <path stroke-width="2" stroke="currentColor" d="M4 22 L26 22"
-                  ></path>
-                </svg>
-              </button>
-
-              <ul
-                class="my-auto grid grid-cols-1 gap-2 p-4 text-sm"
-                slot="menu"
-              >
-                {
-                  main_menu &&
-                    main_menu.length > 0 &&
-                    main_menu.map((link:LinkStoryblok) => (
-                      <li>
-                        <Link
-                          blok={link}
-                          className="link flex text-balance items-center text-2xl btn-underline w-fit mr-auto"
-                        />
-                      </li>
-                    ))
-                }
-              </ul>
-            </Sidebar>
-        </div>
-      </nav>
-    </header>
-    <slot />
+    <main class="pt-16">
+      <slot />
+    </main>
 
     <ScrollDown client:idle surface={surface_menu} />
-    <Footer {settings} lang={lang || SITE_LANG} />
+    <SharedFooter client:load site={SITE} />
     <Init client:idle />
 
     <svg class="hide hidden">

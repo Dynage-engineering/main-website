@@ -1,10 +1,38 @@
+# Dependencies
 node_modules
-.turbo/
-academy/.turbo
-**/**/*.log
-engineering/.turbo/turbo-build.log
-academy/.turbo/turbo-build.log
-general/.turbo/turbo-build.log
-research/.turbo/turbo-build.log
-venv
-**/**/.DS_Store
+.pnp
+.pnp.js
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing
+coverage
+
+# Turbo
+.turbo
+
+# Vercel
+.vercel
+
+# Build Outputs
+dist
+
+# Astro
+.astro
+
+# Debug
+npm-debug.log*
+
+# Misc
+.DS_Store
+*.pem
+
+
+
+.nx/cache
+.nx/workspace-data

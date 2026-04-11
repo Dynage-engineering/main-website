@@ -1,12 +1,24 @@
+// @ts-check
+
+import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "astro/config"
-import mdx from "@astrojs/mdx"
-import sitemap from "@astrojs/sitemap"
-import tailwind from "@astrojs/tailwind"
-import solidJs from "@astrojs/solid-js"
 import react from "@astrojs/react"
+
+import sanity from "@sanity/astro";
+
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://astro-sphere-demo.vercel.app",
-  integrations: [mdx(), sitemap(), solidJs(), tailwind({ applyBaseStyles: false }), react()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
+  integrations: [react(), sanity({
+      projectId: "8ajn3uhd",
+      dataset: "production",
+      // useCdn: false, // for static builds
+    }),],
+
+  adapter: cloudflare(),
 })

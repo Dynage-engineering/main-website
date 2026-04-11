@@ -1,10 +1,7 @@
-import type { Site, Page, Links, Socials } from "@types"
-
-// Global
-export const SITE: Site = {
+export const SITE = {
   TITLE: "Dynage Research",
-  DESCRIPTION: "Welcome to Dynage Research, a portfolio and blog for designers and developers.",
-  AUTHOR: "Dynage Technologies",
+  DESCRIPTION: "Dynage Research dedicated to solving complex global challenges through rigorous scientific inquiry.",
+  URL: "https://research.dynage.technology",
 }
 
 export const LOGO = {
@@ -13,52 +10,14 @@ export const LOGO = {
   alt: "Dynage Research Logo",
 }
 
-// Work Page
-export const WORK: Page = {
-  TITLE: "Roadmap and Timeline",
-  DESCRIPTION: "Our Research Roadmap.",
-}
-
-// Blog Page
-export const BLOG: Page = {
-  TITLE: "Blog",
-  DESCRIPTION: "Writing on topics our researchers are passionate about.",
-}
-
-// Projects Page 
-export const PROJECTS: Page = {
-  TITLE: "Projects",
-  DESCRIPTION: "Recent projects we have worked on.",
-}
-
-// Search Page
-export const SEARCH: Page = {
-  TITLE: "Search",
-  DESCRIPTION: "Search all posts and projects by keyword.",
-}
-
-// Links
-export const LINKS: Links = [
-  { 
-    TEXT: "Home", 
-    HREF: "/", 
-  },
-  { 
-    TEXT: "Roadmap and Timeline", 
-    HREF: "/roadmap", 
-  },
-  { 
-    TEXT: "Blog", 
-    HREF: "/blog", 
-  },
-  { 
-    TEXT: "Projects", 
-    HREF: "/projects", 
-  },
+export const LINKS = [
+  { TEXT: "Home", HREF: "/" },
+  { TEXT: "Publications", HREF: "/publications" },
+  { TEXT: "Roadmap", HREF: "/roadmap" },
+  { TEXT: "About", HREF: "/about" },
 ]
 
-// Socials
-export const SOCIALS: Socials = [
+export const SOCIALS = [
   { 
     NAME: "Email",
     ICON: "email", 
@@ -76,12 +35,6 @@ export const SOCIALS: Socials = [
     ICON: "linkedin",
     TEXT: "Dynage Technologies",
     HREF: "https://www.linkedin.com/company/dynage/",
-  },
-  { 
-    NAME: "Twitter",
-    ICON: "twitter-x",
-    TEXT: "Dynage Technologies",
-    HREF: "https://twitter.com/_dynage",
   },
 ]
 

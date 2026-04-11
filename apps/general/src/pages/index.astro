@@ -1,27 +1,175 @@
 ---
-import Cases from "../components/sections/Cases.astro";
-import Contact from "../components/sections/Contact.astro";
-import Hero from "../components/sections/Hero.astro";
-import Process from "../components/sections/Process.astro";
-import Proposal from "../components/sections/Proposal.astro";
-import Services from "../components/sections/Services.astro";
-import Sponsors from "../components/sections/Sponsors.astro";
-import Team from "../components/sections/Team.astro";
-import Testimonials from "../components/sections/Testimonials.astro";
 import MainLayout from "../layouts/MainLayout.astro";
+import Section from "@dynage/ui/astro/Section.astro";
+import SectionSpacer from "@dynage/ui/astro/SectionSpacer.astro";
+import IndustryCard from "@dynage/ui/astro/IndustryCard.astro";
+import StatsGrid from "@dynage/ui/astro/StatsGrid.astro";
+import { WordSwitcher } from "@dynage/ui/components/word-switcher";
+import { client } from "@dynage/contents/client";
+import { SITE } from "../consts";
+
+// Fetch dynamic content
+const pageData = await client.fetch(`{
+  "content": *[_type == "siteContent" && page == "General"]{
+    section,
+    title,
+    description
+  }
+}`);
+
+const hero = pageData.content.find((s: any) => s.section === "Hero") || {
+  title: "Engineering the Future of",
+  description:
+    "Dynage is a multi-disciplinary holding company focused on transforming institutional performance through intelligence, automation, and education.",
+};
+
+const arms = [
+  {
+    name: "Finance",
+    desc: "Quantitative Trading & Asset Management",
+    link: "https://finance.dynage.technology",
+  },
+  {
+    name: "Research",
+    desc: "Scientific Innovation & Future Systems",
+    link: "https://research.dynage.technology",
+  },
+  {
+    name: "Studio",
+    desc: "Bespoke Digital Products & SaaS",
+    link: "https://studio.dynage.technology",
+  },
+  {
+    name: "Academy",
+    desc: "Elite Technical Training & Workshops",
+    link: "https://academy.dynage.technology",
+  },
+  {
+    name: "Engineering",
+    desc: "Robotics & Advanced IoT Solutions",
+    link: "https://engineering.dynage.technology",
+  },
+];
 ---
 
-<MainLayout
-  title="Dynage Technologies"
-  description="A digital agency that helps you grow your business"
->
-  <Hero />
-  <Sponsors />
-  <Services />
-  <Proposal />
-  <Cases />
-  <Process />
-  <!-- <Team /> -->
-  <!-- <Testimonials /> -->
-  <Contact />
+<MainLayout title={SITE.TITLE} description={SITE.DESCRIPTION}>
+  <section
+    class="py-24 flex flex-col items-center justify-center text-center my-16"
+  >
+    <div class="max-w-5xl px-4">
+      <h1
+        class="text-6xl md:text-9xl font-black mb-8 tracking-tighter leading-none"
+      >
+        {hero.title}
+        <br />
+        <span class="text-blue-600 inline-flex items-center">
+          <WordSwitcher
+            client:load
+            words={[
+              "Systems",
+              "Markets",
+              "Intelligence",
+              "Education",
+              "Automation",
+            ]}
+            duration={2500}
+          />
+        </span>
+      </h1>
+      <p
+        class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-12 leading-relaxed max-w-3xl mx-auto font-medium"
+      >
+        {hero.description}
+      </p>
+      <div class="flex gap-6 justify-center">
+        <a
+          href="#ecosystem"
+          class="px-10 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-bold transition-transform hover:scale-110"
+        >
+          Explore Ecosystem
+        </a>
+        <a
+          href="/about"
+          class="px-10 py-4 border border-black/10 dark:border-white/20 rounded-full font-bold transition-transform hover:scale-110"
+        >
+          The Dynage Story
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <!-- Ecosystem Section -->
+    <Section id="ecosystem" fullWidthBorder>
+      <div class="max-w-4xl mx-auto text-center mb-20 px-4">
+        <h2 class="text-4xl md:text-7xl font-black tracking-tighter mb-6">
+          A Unified <span class="text-blue-600">Frontier</span>
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          Five specialized pillars collaborating to push the boundaries of
+          industrial and digital intelligence.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+        {
+          arms.map((arm) => (
+            <a
+              href={arm.link}
+              class="group p-10 bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-[3rem] transition-all hover:bg-blue-600 hover:border-blue-600 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-600/20"
+            >
+              <h3 class="text-3xl font-black mb-4 group-hover:text-white transition-colors">
+                {arm.name}
+              </h3>
+              <p class="text-gray-600 dark:text-gray-400 group-hover:text-blue-100 transition-colors">
+                {arm.desc}
+              </p>
+              <div class="mt-8 flex items-center text-blue-600 group-hover:text-white font-bold opacity-0 group-hover:opacity-100 transition-all">
+                Visit {arm.name}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 ml-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="3"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </Section>
+
+    <SectionSpacer size="md" />
+
+    <!-- Global Reach Section -->
+    <div class="bg-gray-100 dark:bg-zinc-900/50 py-24">
+      <StatsGrid entryName="global-stats" />
+    </div>
+
+    <SectionSpacer size="md" />
+
+    <!-- Industries Showcase -->
+    <Section>
+      <div class="max-w-4xl mx-auto text-center mb-20 px-4">
+        <h2 class="text-4xl md:text-7xl font-black tracking-tighter mb-6">
+          Industries We <span class="text-blue-600">Impact</span>
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          Transforming global sectors through integrated holding
+          multi-disciplinary expertise.
+        </p>
+      </div>
+      <IndustryCard />
+    </Section>
+
+    <SectionSpacer size="lg" />
+  </main>
 </MainLayout>

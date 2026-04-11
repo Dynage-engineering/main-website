@@ -1,22 +1,99 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro'
-import Brief from '../components/Brief.astro'
-import Pricing from '../components/Pricing.astro';
-import Customers from '../components/Customers.astro'
-import Footer from '../components/Footer.astro';
+import Layout from "../layouts/Layout.astro";
+import Section from "@dynage/ui/astro/Section";
+import SectionSpacer from "@dynage/ui/astro/SectionSpacer";
+import StatsGrid from "@dynage/ui/astro/StatsGrid";
+import IndustryCard from "@dynage/ui/astro/IndustryCard";
+import { client } from "@dynage/contents/client";
+import { MEETING_URL, SITE } from "../consts";
+
+// Fetch dynamic page content from Sanity
+const pageData = await client.fetch(`{
+  "content": *[_type == "siteContent" && page == "Finance"]{
+    section,
+    title,
+    description
+  },
+  "meetingUrl": *[_type == "systemUrl" && (name match "Finance" || name match "Trading")][0].url
+}`);
+
+const hero = pageData.content.find((s: any) => s.section === "Hero") || {
+  title: "Quantitatively Powered <span class='text-blue-600'>Wealth Management</span>",
+  description: "Leveraging cutting-edge quantitative methods to dominate Forex, Gold, and Crypto markets. We bridge institutional strategy with high-yield performance."
+};
+
+const valueProp = pageData.content.find((s: any) => s.section === "ValueProp") || {
+  title: "Why Trade with Dynage?",
+  description: "Our proprietary algorithms and risk-management systems ensure consistent growth in volatile environments. We don't just follow the market—we lead it."
+};
+
+const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 ---
 
-<Layout title="Idol | Micro SaaS landing page">
-	<Header />
-	<Hero />
-	<Brief />
-	<Pricing />
-	<Customers />
-	<Footer />
+<Layout title={SITE.TITLE}>
+	<section
+		class="py-20 flex flex-col items-center justify-center text-center my-16"
+	>
+		<div class="max-w-4xl px-4">
+			<h1
+				class="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-[1.1]"
+                set:html={hero.title}
+			/>
+			<p
+				class="text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto"
+			>
+				{hero.description}
+			</p>
+			<div class="flex gap-4 justify-center">
+				<a
+					href="/trading"
+					class="px-8 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium transition-transform hover:scale-105"
+				>
+					Start Trading
+				</a>
+				<a
+					href={dynamicMeetingUrl}
+					class="px-8 py-3 border border-black/10 dark:border-white/10 rounded-full font-medium transition-transform hover:scale-105"
+				>
+					Consult an Expert
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<main>
+		<Section fullWidthBorder>
+			<div class="max-w-4xl mx-auto text-center mb-16 px-4">
+				<h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
+					Instruments of <span class="text-blue-600">Choice</span>
+				</h2>
+				<p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+					Diversified exposure across high-liquidity markets, managed by intelligence.
+				</p>
+			</div>
+			<div class="px-4">
+				<IndustryCard />
+			</div>
+		</Section>
+
+		<SectionSpacer size="md" />
+
+		<Section variant="dark" fullWidthBorder={false}>
+			<div class="max-w-5xl mx-auto text-center py-20 px-8">
+				<h2 class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-8">
+					{valueProp.title}
+				</h2>
+                <p class="text-xl text-gray-400 mb-10 max-w-3xl mx-auto">
+                    {valueProp.description}
+                </p>
+				<div class="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
+			</div>
+		</Section>
+
+		<div class="bg-gray-50 dark:bg-black/50 py-12">
+			<StatsGrid entryName="finance-perf" />
+		</div>
+
+		<SectionSpacer size="lg" />
+	</main>
 </Layout>
-
-<style>
-
-</style>

@@ -1,0 +1,128 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "@dynage/ui/astro/Section.astro";
+import SectionSpacer from "@dynage/ui/astro/SectionSpacer.astro";
+import { client } from "@dynage/contents/client";
+import { PortableText } from "astro-portabletext";
+
+// Fetch dynamic about content from Sanity
+const aboutData = await client.fetch(`*[_type == "siteContent" && page == "Research" && section in ["About", "Mission", "Vision", "Values"]] {
+  section,
+  title,
+  description,
+  content
+}`);
+
+const getSection = (name: string) => aboutData.find((s: any) => s.section === name);
+
+const hero = getSection("About") || {
+  title: "Pioneering the Knowledge Frontier",
+  description: "Dynage Research is the scientific heart of the Dynage ecosystem, dedicated to exploring the intersection of AI, Robotics, and physical intelligence."
+};
+
+const mission = getSection("Mission") || {
+  title: "Our Mission",
+  description: "To advance human potential by developing cutting-edge solutions for Health, Real Estate, and Finance through rigorous scientific inquiry."
+};
+
+const vision = getSection("Vision") || {
+  title: "Our Vision",
+  description: "A world where technology serves humanity with invisible precision, solving the most complex social and industrial challenges."
+};
+
+const values = getSection("Values") || {
+  title: "Core Values",
+  content: null
+};
+
+const fallbackValues = [
+  { name: "Scientific Rigor", desc: "Every solution is backed by deep analysis and validation." },
+  { name: "Ethical Impact", desc: "Innovation must serve the greater good of society." },
+  { name: "Open Inquiry", desc: "Fostering an environment of curiosity and breakthrough." },
+  { name: "Systems Thinking", desc: "Understanding the interconnected nature of global challenges." }
+];
+---
+
+<Layout title="About | Dynage Research">
+  <section class="pt-32 pb-20 text-center">
+    <div class="max-w-4xl mx-auto px-4">
+      <h1 class="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-none">
+        {hero.title}
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+        {hero.description}
+      </p>
+    </div>
+  </section>
+
+  <main class="pb-32">
+    <!-- Mission & Vision -->
+    <Section variant="dark" class="rounded-[4rem] mx-4 overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-32 py-24 px-8">
+        <div class="space-y-6">
+          <h2 class="text-xs uppercase tracking-[0.3em] font-black text-blue-500">
+            {mission.title}
+          </h2>
+          <p class="text-3xl font-bold tracking-tight leading-snug text-white">
+            {mission.description}
+          </p>
+        </div>
+        <div class="space-y-6">
+          <h2 class="text-xs uppercase tracking-[0.3em] font-black text-gray-500">
+            {vision.title}
+          </h2>
+          <p class="text-2xl font-medium tracking-tight leading-relaxed text-gray-300">
+            {vision.description}
+          </p>
+        </div>
+      </div>
+    </Section>
+
+    <SectionSpacer size="lg" />
+
+    <!-- Values Section -->
+    <Section>
+      <div class="max-w-4xl mx-auto text-center mb-20 px-4">
+        <h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
+          Research <span class="text-blue-600">Ethics</span>
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium">
+          The principles that guide our labs and ensure every discovery is meaningful.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+        {values.content ? (
+          <div class="col-span-full prose prose-xl prose-blue dark:prose-invert max-w-none text-center">
+            <PortableText value={values.content} />
+          </div>
+        ) : (
+          fallbackValues.map((val) => (
+            <div class="p-10 rounded-[2.5rem] bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 transition-all hover:scale-[1.02]">
+              <h3 class="text-2xl font-black mb-4 text-blue-600">{val.name}</h3>
+              <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                {val.desc}
+              </p>
+            </div>
+          ))
+        )}
+      </div>
+    </Section>
+
+    <SectionSpacer size="lg" />
+
+    <!-- CTA -->
+    <Section>
+       <div class="max-w-4xl mx-auto text-center py-20 bg-blue-600 rounded-[3rem] text-white px-8 relative overflow-hidden">
+          <div class="absolute inset-0 bg-white/5 opacity-10 pointer-events-none"></div>
+          <h2 class="text-4xl md:text-6xl font-black mb-8 tracking-tighter">Accelerate the Discovery</h2>
+          <p class="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
+             Collaborate with our research centers to solve your industry's most complex theoretical and practical challenges.
+          </p>
+          <a href="/roadmap" class="inline-flex px-12 py-5 bg-white text-black rounded-full font-black text-lg transition-transform hover:scale-110 shadow-xl">
+            Explore Roadmap
+          </a>
+       </div>
+    </Section>
+  </main>
+</Layout>

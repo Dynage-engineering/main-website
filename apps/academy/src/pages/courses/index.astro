@@ -1,0 +1,51 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Container } from "@dynage/ui/components/container";
+import CourseCard from "../../components/CourseCard.astro";
+import { client } from "@dynage/contents/client";
+import { urlFor } from "@dynage/contents/image";
+
+// Fetch courses from Sanity with more robust description extraction
+const sanityCourses = await client.fetch(`*[_type == "course"]{
+  title,
+  "slug": slug.current,
+  "image": mainImage,
+  level,
+  duration,
+  "description": coalesce(array::join(syllabus[0].children[].text, ""), "No description available")
+}`);
+
+---
+
+<Layout title="Our Courses | Dynage Academy">
+  <section class="py-20 animate">
+    <Container size="md">
+      <div class="mb-10">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Our Courses</h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 mb-10">
+          Deep dive into specialized topics with our structured, multi-week
+          programs.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {
+          sanityCourses?.filter((c: any) => c.slug).map((course: any) => (
+            <CourseCard
+              title={course.title}
+              description={course.description}
+              slug={course.slug}
+              image={
+                course.image?.asset
+                  ? urlFor(course.image).width(400).url()
+                  : course.image
+              }
+              level={course.level}
+              duration={course.duration}
+            />
+          )) || <p>No courses found</p>
+        }
+      </div>
+    </Container>
+  </section>
+</Layout>

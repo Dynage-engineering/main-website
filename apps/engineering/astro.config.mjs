@@ -1,11 +1,24 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
-import Unocss from 'unocss/astro';
 
-import icon from 'astro-icon';
+import tailwindcss from "@tailwindcss/vite"
+import { defineConfig } from "astro/config"
+import react from "@astrojs/react"
+
+import sanity from "@sanity/astro";
+
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-    // @ts-ignore
-    integrations: [Unocss({ injectReset: true, injectEntry: true }), icon()]
-});
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
+  integrations: [react(), sanity({
+    projectId: "8ajn3uhd",
+    dataset: "production",
+    // useCdn: false, // for static builds
+  }),],
+
+  adapter: cloudflare(),
+})

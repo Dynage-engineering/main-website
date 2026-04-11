@@ -1,0 +1,52 @@
+---
+import { Button } from "@dynage/ui/components/button";
+import { Clock } from "lucide-react";
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@dynage/ui/components/card";
+import { Badge } from "@dynage/ui/components/badge";
+
+interface Props {
+  title: string;
+  description: string;
+  image: string;
+  level: string;
+  duration: string;
+  slug: string;
+  price?: string;
+}
+
+const { title, description, image, level, duration, slug, price } = Astro.props;
+---
+
+<a href={`/courses/${slug}`}>
+  <Card className="relative mx-auto w-full max-w-sm pt-0">
+    <div class="absolute inset-0 z-30 aspect-video bg-black/35"></div>
+    <img
+      src={image}
+      alt="Event cover"
+      class="relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
+    />
+    <CardHeader>
+      <CardAction>
+        <Badge variant="secondary">{level}</Badge>
+      </CardAction>
+      <CardTitle>{title}</CardTitle>
+      <CardDescription>
+        <div class="flex items-center gap-2">
+          <Clock className="h-4 w-4" />
+          {duration}
+        </div>
+        {description.slice(0, 100) + "..."}
+      </CardDescription>
+    </CardHeader>
+    <CardFooter>
+      <Button className="w-full">Enroll Now</Button>
+    </CardFooter>
+  </Card>
+</a>

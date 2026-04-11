@@ -1,12 +1,25 @@
-import { defineConfig } from "astro/config";
+// @ts-nocheck
 
-import tailwind from "@astrojs/tailwind";
-import react from '@astrojs/react';
+import tailwindcss from "@tailwindcss/vite"
+import { defineConfig } from "astro/config"
+import react from "@astrojs/react"
+import sanity from "@sanity/astro";
+
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://master--kreatif-software.netlify.app",
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
   integrations: [
-    react(),
-    tailwind({ configFile: "./tailwind.config.mjs" })],
-});
+    sanity({
+      projectId: "8ajn3uhd",
+      dataset: "production",
+      // useCdn: false, // for static builds
+    }),
+    react(),],
+
+  adapter: cloudflare(),
+})
