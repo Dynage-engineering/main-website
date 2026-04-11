@@ -1,18 +1,51 @@
 ---
-// import Cases from "../components/sections/Cases.astro";
-// import Contact from "../components/sections/Contact.astro";
-// import Hero from "../components/sections/Hero.astro";
-// import Process from "../components/sections/Process.astro";
-// import Proposal from "../components/sections/Proposal.astro";
-// import Services from "../components/sections/Services.astro";
-// import Sponsors from "../components/sections/Sponsors.astro";
-
+import { Button } from "@dynage/ui/components/button";
 import MainLayout from "../layouts/MainLayout.astro";
+import { WordSwitcher } from "@dynage/ui/components/word-switcher";
 ---
 
 <MainLayout
   title="Dynage Technologies"
   description="A digital agency that helps you grow your business"
 >
-  <p>Hello</p>
+  <section
+    class="py-20 flex flex-col items-center justify-center text-center my-16"
+  >
+    <div class="max-w-4xl px-4">
+      <h1
+        class="text-5xl md:text-8xl font-bold mb-8 tracking-tighter leading-[1.1]"
+      >
+        Optimize Your <br />
+        <span class="text-blue-600 inline-flex items-center">
+          Business
+          <WordSwitcher
+            client:load
+            words={[
+              "Processes",
+              "Workflows",
+              "Operations",
+              "Systems",
+              "Efficiencies",
+            ]}
+            duration={2000}
+            className="ml-3"
+          />
+        </span>
+      </h1>
+      <p class="text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed">
+        We help ambitious businesses streamline their operations and improve
+        efficiency. We set up the right tools and processes to help you achieve
+        your goals leveraging on your existing resources with less stress and
+        more success.
+      </p>
+      <div class="flex gap-4 justify-center">
+        <a href="https://zcal.co/dynage/15min">
+          <Button size={"lg"}> Book a consultation </Button>
+        </a>
+        <a href="/about">
+          <Button size={"lg"} variant="outline"> See our projects </Button>
+        </a>
+      </div>
+    </div>
+  </section>
 </MainLayout>

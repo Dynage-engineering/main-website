@@ -35,11 +35,12 @@ const { title, description, image, level, duration } = Astro.props;
       </CardAction>
       <CardTitle>{title}</CardTitle>
       <CardDescription>
-        {description.slice(0, 60)}
+        {description.slice(0, 100) + "..."}
       </CardDescription>
     </CardHeader>
     <CardFooter className="">
-      <Button className="w-full">View Event</Button>
+      <Button className="w-full">Enroll Now</Button>
+      <Button className="w-full">View Details</Button>
     </CardFooter>
   </Card>
 </>

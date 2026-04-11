@@ -17,15 +17,22 @@
     "typecheck": "astro check"
   },
   "dependencies": {
-    "@astrojs/react": "^4.4.2",
+    "@astrojs/react": "^5.0.3",
     "@astrojs/rss": "^4.0.18",
+    "@dynage/contents": "workspace:*",
     "@dynage/ui": "workspace:*",
+    "@sanity/astro": "^3.3.1",
+    "@sanity/client": "^7.20.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "astro": "^5.17.1",
+    "astro-portabletext": "^0.13.0",
     "lucide-react": "^1.8.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-is": "^19.2.5",
+    "sanity": "^5.20.0",
+    "styled-components": "^6.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

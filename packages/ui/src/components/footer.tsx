@@ -75,7 +75,7 @@ export const Footer: React.FC<FooterProps> = ({ site, socials = SOCIALS }) => {
                   href="/"
                   className="flex gap-1 w-fit font-semibold text-current hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
                 >
-                  <Logo isFooter text="ACADEMY" className="h-6 w-auto" />
+                  <Logo isFooter className="h-6 w-auto" />
                 </a>
               </div>
               <div className="flex gap-2 justify-center sm:justify-end items-center">

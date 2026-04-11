@@ -1,0 +1,70 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Container } from "@dynage/ui/components/container";
+import CourseCard from "../../components/CourseCard.astro";
+// import { client } from "@dynage/contents/client";
+// import { urlFor } from "@dynage/contents/image";
+import { COURSES } from "../../consts";
+
+import type { SanityDocument } from "@sanity/client";
+import { sanityClient } from "sanity:client";
+
+const POSTS_QUERY = `*[
+  _type == "post"
+  && defined(slug.current)
+]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
+
+const posts = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
+
+// Fetch courses from Sanity
+const sanityCourses = await sanityClient.fetch(`*[_type == "course"]{
+  title,
+  "slug": slug.current,
+  "image": mainImage,
+  level,
+  duration,
+  "description": array::join(syllabus[0].children[].text, "")
+}`);
+
+console.log({ sanityCourses, posts });
+
+// Combine or use sanity courses if available, fallback to static for now
+const displayCourses =
+  sanityCourses.length > 0
+    ? sanityCourses
+    : COURSES.map((c) => ({
+        title: c.TITLE,
+        description: c.DESCRIPTION,
+        image: c.IMAGE,
+        level: c.LEVEL,
+        duration: c.DURATION,
+      }));
+---
+
+<Layout title="Our Courses | Dynage Academy">
+  <section class="py-20 animate">
+    <Container size="md">
+      <div class="mb-10">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Our Courses</h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 mb-10">
+          Deep dive into specialized topics with our structured, multi-week
+          programs.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {
+          displayCourses.map((course: any) => (
+            <CourseCard
+              title={course.title}
+              description={course.description}
+              image={course.image?.asset ? course.image : course.image}
+              level={course.level}
+              duration={course.duration}
+            />
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+</Layout>

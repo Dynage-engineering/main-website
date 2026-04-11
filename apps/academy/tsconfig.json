@@ -18,6 +18,9 @@
       "@dynage/ui/*": [
         "../../packages/ui/src/*"
       ]
-    }
+    },
+    "types": [
+      "@sanity/astro/module"
+    ]
   }
 }

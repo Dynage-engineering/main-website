@@ -7,9 +7,8 @@ export const SITE = {
 export const LINKS = [
   { TEXT: "Home", HREF: "/" },
   { TEXT: "Services", HREF: "#services" },
-  { TEXT: "Cases", HREF: "#cases" },
+  { TEXT: "Projects", HREF: "#projects" },
   { TEXT: "Process", HREF: "#process" },
-  { TEXT: "Contact", HREF: "#contact" },
 ]
 
 export const LOGO = {

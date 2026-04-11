@@ -1,19 +1,11 @@
 ---
-
-import Contact from "../components/sections/Contact.astro";
-import Team from "../components/sections/Team.astro";
-import Testimonials from "../components/sections/Testimonials.astro";
+import Error from "@dynage/ui/components/error";
 import MainLayout from "../layouts/MainLayout.astro";
 ---
 
-<MainLayout 
-title="Dynage || 404 Not Found"
-description="A digital agency that helps you grow your business">
-    <div class="min-h-[calc(100vh-10rem)] flex items-center justify-center">
-      <div class="mt-16 text-center">
-        <h1 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">404</h1>
-        <p class="text-lg mt-4 text-slate-600">Page not found.</p>
-        <a href="/" class="mt-4 text-primary-500 hover:underline">&langle; Go back home</a>
-      </div>
-    </div>
+<MainLayout
+  title="Dynage || 404 Not Found"
+  description="A digital agency that helps you grow your business"
+>
+  <Error />
 </MainLayout>
