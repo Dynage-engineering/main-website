@@ -9,6 +9,7 @@ import partner from './partner'
 import systemUrl from './systemUrl'
 import industry from './industry'
 import stat from './stat'
+import roadmap from './roadmap'
 
 export const schemaTypes = [
   blockContent,
@@ -22,4 +23,5 @@ export const schemaTypes = [
   systemUrl,
   industry,
   stat,
+  roadmap,
 ]
