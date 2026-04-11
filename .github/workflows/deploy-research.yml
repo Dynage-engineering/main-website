@@ -25,7 +25,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm run build --filter research
+        run: pnpm --filter research build
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
