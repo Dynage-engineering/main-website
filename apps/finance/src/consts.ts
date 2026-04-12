@@ -15,3 +15,4 @@ export const LOGO = {
   DARK: "https://res.cloudinary.com/dk0pompea/image/upload/v1740743377/dynage/logo/Team_Finance_Color_Black_2x_shanqw.svg",
   alt: "Dynage Finance Logo",
 }
+export const MEETING_URL = "https://zcal.co/dynage/15min";
