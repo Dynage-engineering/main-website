@@ -9,6 +9,7 @@ import sanity from "@sanity/astro";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://studio.dynage.technology",
   vite: {
     plugins: [tailwindcss()],
   },
