@@ -8,6 +8,7 @@
     "dev": "nx run-many -t dev",
     "dev:web": "nx run-many -t dev --exclude=contents",
     "lint": "nx run-many -t lint",
+    "preview": "nx run-many -t preview",
     "deploy": "nx run-many -t deploy",
     "deploy:academy": "pnpm --filter academy run deploy",
     "deploy:engineering": "pnpm --filter engineering run deploy",
