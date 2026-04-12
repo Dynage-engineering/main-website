@@ -1,8 +1,19 @@
 ---
-import { WORKSHOPS } from "../consts";
 import { Container } from "@dynage/ui/components/container";
 import WorkshopCard from "../components/WorkshopCard.astro";
 import Layout from "../layouts/Layout.astro";
+import { client, PLACEHOLDER_IMG } from "@dynage/contents/client";
+import { urlFor } from "@dynage/contents/image";
+
+// Fetch workshops from Sanity
+const sanityWorkshops = await client.fetch(`*[_type == "workshop"]{
+  title,
+  "slug": slug.current,
+  "image": mainImage,
+  date,
+  price,
+  "description": coalesce(array::join(description[0].children[].text, ""), "No description available")
+}`);
 ---
 
 <Layout title="Workshops | Dynage Academy">
@@ -15,17 +26,36 @@ import Layout from "../layouts/Layout.astro";
         </p>
       </div>
 
-      <div class="flex gap-4 justify-center md:flex-wrap">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
         {
-          WORKSHOPS.map((workshop) => (
-            <WorkshopCard
-              title={workshop.TITLE}
-              description={workshop.DESCRIPTION}
-              image={workshop.IMAGE}
-              date={workshop.DATE}
-              price={workshop.PRICE}
-            />
-          ))
+          sanityWorkshops?.length > 0 ? (
+            sanityWorkshops.map((workshop: any) => (
+              <WorkshopCard
+                title={workshop.title}
+                description={workshop.description}
+                image={
+                  workshop.image?.asset
+                    ? urlFor(workshop.image).width(400).url()
+                    : PLACEHOLDER_IMG
+                }
+                date={
+                  workshop.date
+                    ? new Date(workshop.date).toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      })
+                    : "Date TBD"
+                }
+                price={workshop.price ? `$${workshop.price}` : "Free"}
+                slug={workshop.slug}
+              />
+            ))
+          ) : (
+            <p class="text-center text-gray-500">
+              No workshops scheduled at the moment. Check back soon!
+            </p>
+          )
         }
       </div>
     </Container>

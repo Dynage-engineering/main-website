@@ -1,11 +1,12 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Section from "../../components/Section.astro";
-import { client } from "@dynage/contents/client";
+import { client, PLACEHOLDER_IMG } from "@dynage/contents/client";
 import { urlFor } from "@dynage/contents/image";
 
 // Fetch all projects from Sanity
-const projects = await client.fetch(`*[_type == "project"] | order(publishedAt desc) {
+const projects =
+  await client.fetch(`*[_type == "project"] | order(publishedAt desc) {
   title,
   "slug": slug.current,
   description,
@@ -18,11 +19,14 @@ const projects = await client.fetch(`*[_type == "project"] | order(publishedAt d
 <Layout title="Projects | Dynage Engineering">
   <section class="pt-32 pb-20 text-center">
     <div class="max-w-4xl mx-auto px-4">
-      <h1 class="text-5xl md:text-8xl font-black mb-6 tracking-tighter leading-none">
+      <h1
+        class="text-5xl md:text-8xl font-black mb-6 tracking-tighter leading-none"
+      >
         Our <span class="text-blue-600">Innovations</span>
       </h1>
       <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-        A showcase of intelligent systems, automation breakthroughs, and engineering excellence across global industries.
+        A showcase of intelligent systems, automation breakthroughs, and
+        engineering excellence across global industries.
       </p>
     </div>
   </section>
@@ -30,48 +34,59 @@ const projects = await client.fetch(`*[_type == "project"] | order(publishedAt d
   <main class="pb-32">
     <Section>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
-        {projects.map((project: any) => (
-          <a 
-            href={`/projects/${project.slug}`}
-            class="group block bg-gray-50 dark:bg-zinc-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 transition-all hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2"
-          >
-            <div class="aspect-[16/10] overflow-hidden bg-gray-200 dark:bg-zinc-800">
-              {project.mainImage ? (
-                <img 
-                  src={urlFor(project.mainImage).width(800).url()} 
+        {
+          projects.map((project: any) => (
+            <a
+              href={`/projects/${project.slug}`}
+              class="group block bg-gray-50 dark:bg-zinc-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 transition-all hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2"
+            >
+              <div class="aspect-[16/10] overflow-hidden bg-gray-200 dark:bg-zinc-800">
+                <img
+                  src={
+                    project.mainImage
+                      ? urlFor(project.mainImage).width(800).url()
+                      : PLACEHOLDER_IMG
+                  }
                   alt={project.title}
                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-              ) : (
-                <div class="w-full h-full flex items-center justify-center text-gray-400">
-                   No Image Available
+              </div>
+              <div class="p-8">
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {project.category?.map((cat: string) => (
+                    <span class="text-[10px] uppercase tracking-widest font-bold px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
+                      {cat}
+                    </span>
+                  ))}
                 </div>
-              )}
-            </div>
-            <div class="p-8">
-              <div class="flex flex-wrap gap-2 mb-4">
-                {project.category?.map((cat: string) => (
-                  <span class="text-[10px] uppercase tracking-widest font-bold px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    {cat}
-                  </span>
-                ))}
+                <h3 class="text-2xl font-bold tracking-tight mb-3 group-hover:text-blue-600 transition-colors">
+                  {project.title}
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400 line-clamp-2 text-sm leading-relaxed">
+                  {project.description}
+                </p>
+
+                <div class="mt-6 flex items-center text-blue-600 font-bold text-sm">
+                  View Project Details
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
               </div>
-              <h3 class="text-2xl font-bold tracking-tight mb-3 group-hover:text-blue-600 transition-colors">
-                {project.title}
-              </h3>
-              <p class="text-gray-600 dark:text-gray-400 line-clamp-2 text-sm leading-relaxed">
-                {project.description}
-              </p>
-              
-              <div class="mt-6 flex items-center text-blue-600 font-bold text-sm">
-                View Project Details
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </div>
-            </div>
-          </a>
-        ))}
+            </a>
+          ))
+        }
       </div>
     </Section>
   </main>

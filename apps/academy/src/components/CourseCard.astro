@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@dynage/ui/components/card";
 import { Badge } from "@dynage/ui/components/badge";
+import { PLACEHOLDER_IMG } from "@dynage/contents/client";
 
 interface Props {
   title: string;
@@ -21,7 +22,15 @@ interface Props {
   price?: string;
 }
 
-const { title, description, image, level, duration, slug, price } = Astro.props;
+const {
+  title,
+  description,
+  image = PLACEHOLDER_IMG,
+  level,
+  duration,
+  slug,
+  price,
+} = Astro.props;
 ---
 
 <a href={`/courses/${slug}`}>
@@ -33,9 +42,9 @@ const { title, description, image, level, duration, slug, price } = Astro.props;
       class="relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
     />
     <CardHeader>
-      <CardAction>
+      <!-- <CardAction>
         <Badge variant="secondary">{level}</Badge>
-      </CardAction>
+      </CardAction> -->
       <CardTitle>{title}</CardTitle>
       <CardDescription>
         <div class="flex items-center gap-2">
@@ -46,7 +55,7 @@ const { title, description, image, level, duration, slug, price } = Astro.props;
       </CardDescription>
     </CardHeader>
     <CardFooter>
-      <Button className="w-full">Enroll Now</Button>
+      <Button className="w-full">Enroll Now for ${price}</Button>
     </CardFooter>
   </Card>
 </a>

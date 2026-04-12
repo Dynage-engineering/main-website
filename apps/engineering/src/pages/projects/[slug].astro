@@ -2,12 +2,14 @@
 import Layout from "../../layouts/Layout.astro";
 import Section from "../../components/Section.astro";
 import SectionSpacer from "../../components/SectionSpacer.astro";
-import { client } from "@dynage/contents/client";
+import { client, PLACEHOLDER_IMG } from "@dynage/contents/client";
 import { urlFor } from "@dynage/contents/image";
 import { PortableText } from "astro-portabletext";
 
 export async function getStaticPaths() {
-  const projects = await client.fetch(`*[_type == "project"]{ "slug": slug.current }`);
+  const projects = await client.fetch(
+    `*[_type == "project"]{ "slug": slug.current }`,
+  );
   return projects.map((p: any) => ({
     params: { slug: p.slug },
   }));
@@ -15,7 +17,8 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 
-const project = await client.fetch(`*[_type == "project" && slug.current == $slug][0]{
+const project = await client.fetch(
+  `*[_type == "project" && slug.current == $slug][0]{
   title,
   description,
   category,
@@ -25,7 +28,9 @@ const project = await client.fetch(`*[_type == "project" && slug.current == $slu
   githubUrl,
   publishedAt,
   body
-}`, { slug });
+}`,
+  { slug },
+);
 
 if (!project) return Astro.redirect("/404");
 ---
@@ -35,16 +40,22 @@ if (!project) return Astro.redirect("/404");
     <!-- Hero Header -->
     <header class="max-w-5xl mx-auto px-6 mb-16 text-center">
       <div class="flex flex-wrap justify-center gap-2 mb-6">
-        {project.category?.map((cat: string) => (
-          <span class="text-xs uppercase tracking-widest font-black px-4 py-1.5 bg-blue-600 text-white rounded-full">
-            {cat}
-          </span>
-        ))}
+        {
+          project.category?.map((cat: string) => (
+            <span class="text-xs uppercase tracking-widest font-black px-4 py-1.5 bg-blue-600 text-white rounded-full">
+              {cat}
+            </span>
+          ))
+        }
       </div>
-      <h1 class="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-none">
+      <h1
+        class="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-none"
+      >
         {project.title}
       </h1>
-      <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+      <p
+        class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed"
+      >
         {project.description}
       </p>
     </header>
@@ -52,18 +63,24 @@ if (!project) return Astro.redirect("/404");
     <!-- Main Hero Image -->
     <Section fullWidthBorder={false}>
       <div class="max-w-7xl mx-auto px-4">
-        <div class="aspect-[21/9] rounded-[3rem] overflow-hidden shadow-2xl shadow-blue-500/10 border border-gray-100 dark:border-zinc-800">
-           {project.mainImage ? (
-                <img 
-                  src={urlFor(project.mainImage).width(1600).url()} 
-                  alt={project.title}
-                  class="w-full h-full object-cover"
-                />
-              ) : (
-                <div class="w-full h-full bg-gray-100 dark:bg-zinc-900 flex items-center justify-center">
-                   <span class="text-gray-400">Image Coming Soon</span>
-                </div>
-              )}
+        <div
+          class="aspect-[21/9] rounded-[3rem] overflow-hidden shadow-2xl shadow-blue-500/10 border border-gray-100 dark:border-zinc-800"
+        >
+          {
+            project.mainImage ? (
+              <img
+                src={
+                  urlFor(project.mainImage).width(1600).url() || PLACEHOLDER_IMG
+                }
+                alt={project.title}
+                class="w-full h-full object-cover"
+              />
+            ) : (
+              <div class="w-full h-full bg-gray-100 dark:bg-zinc-900 flex items-center justify-center">
+                <span class="text-gray-400">Image Coming Soon</span>
+              </div>
+            )
+          }
         </div>
       </div>
     </Section>
@@ -72,48 +89,60 @@ if (!project) return Astro.redirect("/404");
 
     <!-- Content & Details -->
     <Section>
-      <div class="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-16 lg:gap-32 px-6">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-16 lg:gap-32 px-6"
+      >
         <!-- Body Content -->
-        <div class="prose prose-xl prose-blue dark:prose-invert max-w-none content-wrapper">
+        <div
+          class="prose prose-xl prose-blue dark:prose-invert max-w-none content-wrapper"
+        >
           <PortableText value={project.body} />
         </div>
 
         <!-- Sidebar Details -->
         <aside class="space-y-12">
-          {project.technologies && (
-            <div>
-              <h4 class="text-sm font-black uppercase tracking-widest text-gray-400 mb-6">
-                Technologies
-              </h4>
-              <div class="flex flex-wrap gap-2 text-sm">
-                {project.technologies.map((tech: string) => (
-                  <span class="px-4 py-2 bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-2xl font-medium">
-                    {tech}
-                  </span>
-                ))}
+          {
+            project.technologies && (
+              <div>
+                <h4 class="text-sm font-black uppercase tracking-widest text-gray-400 mb-6">
+                  Technologies
+                </h4>
+                <div class="flex flex-wrap gap-2 text-sm">
+                  {project.technologies.map((tech: string) => (
+                    <span class="px-4 py-2 bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-2xl font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )
+          }
 
-          <div class="space-y-6 pt-12 border-t border-gray-100 dark:border-zinc-800">
-            {project.projectUrl && (
-              <a 
-                href={project.projectUrl} 
-                target="_blank" 
-                class="flex items-center justify-center w-full px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold transition-transform hover:scale-105"
-              >
-                Launch Live Project
-              </a>
-            )}
-            {project.githubUrl && (
-              <a 
-                href={project.githubUrl} 
-                target="_blank" 
-                class="flex items-center justify-center w-full px-8 py-4 border border-blue-600 text-blue-600 rounded-2xl font-bold transition-all hover:bg-blue-50 dark:hover:bg-blue-900/20"
-              >
-                View Repository
-              </a>
-            )}
+          <div
+            class="space-y-6 pt-12 border-t border-gray-100 dark:border-zinc-800"
+          >
+            {
+              project.projectUrl && (
+                <a
+                  href={project.projectUrl}
+                  target="_blank"
+                  class="flex items-center justify-center w-full px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold transition-transform hover:scale-105"
+                >
+                  Launch Live Project
+                </a>
+              )
+            }
+            {
+              project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  class="flex items-center justify-center w-full px-8 py-4 border border-blue-600 text-blue-600 rounded-2xl font-bold transition-all hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                >
+                  View Repository
+                </a>
+              )
+            }
           </div>
         </aside>
       </div>
@@ -122,13 +151,16 @@ if (!project) return Astro.redirect("/404");
 
   <!-- CTA Section -->
   <Section variant="dark" class="rounded-[4rem] mx-4 mb-32">
-     <div class="max-w-4xl mx-auto py-24 text-center">
-        <h2 class="text-4xl md:text-6xl font-black mb-10 tracking-tight">
-            Inspired by this <span class="text-blue-500">Project?</span>
-        </h2>
-        <a href="/solutions" class="inline-flex px-12 py-5 bg-white text-black rounded-full font-black text-lg transition-transform hover:scale-105">
-            Discuss Your System
-        </a>
-     </div>
+    <div class="max-w-4xl mx-auto py-24 text-center">
+      <h2 class="text-4xl md:text-6xl font-black mb-10 tracking-tight">
+        Inspired by this <span class="text-blue-500">Project?</span>
+      </h2>
+      <a
+        href="/solutions"
+        class="inline-flex px-12 py-5 bg-white text-black rounded-full font-black text-lg transition-transform hover:scale-105"
+      >
+        Discuss Your System
+      </a>
+    </div>
   </Section>
 </Layout>

@@ -8,7 +8,7 @@ export const LINKS = [
   { TEXT: "Home", HREF: "/" },
   { TEXT: "Projects", HREF: "/projects" },
   { TEXT: "About", HREF: "/about" },
-  { TEXT: "Shop", HREF: "#" },
+  { TEXT: "Shop", HREF: "#", BADGE: "SOON" },
 ]
 
 export const LOGO = {

@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { Container } from "@dynage/ui/components/container";
 import CourseCard from "../../components/CourseCard.astro";
-import { client } from "@dynage/contents/client";
+import { client, PLACEHOLDER_IMG } from "@dynage/contents/client";
 import { urlFor } from "@dynage/contents/image";
 
 // Fetch courses from Sanity with more robust description extraction
@@ -12,9 +12,9 @@ const sanityCourses = await client.fetch(`*[_type == "course"]{
   "image": mainImage,
   level,
   duration,
+  price,
   "description": coalesce(array::join(syllabus[0].children[].text, ""), "No description available")
 }`);
-
 ---
 
 <Layout title="Our Courses | Dynage Academy">
@@ -28,22 +28,25 @@ const sanityCourses = await client.fetch(`*[_type == "course"]{
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
         {
-          sanityCourses?.filter((c: any) => c.slug).map((course: any) => (
-            <CourseCard
-              title={course.title}
-              description={course.description}
-              slug={course.slug}
-              image={
-                course.image?.asset
-                  ? urlFor(course.image).width(400).url()
-                  : course.image
-              }
-              level={course.level}
-              duration={course.duration}
-            />
-          )) || <p>No courses found</p>
+          sanityCourses
+            ?.filter((c: any) => c.slug)
+            .map((course: any) => (
+              <CourseCard
+                title={course.title}
+                description={course.description}
+                slug={course.slug}
+                image={
+                  course.image?.asset
+                    ? urlFor(course.image).width(400).url()
+                    : PLACEHOLDER_IMG
+                }
+                level={course.level}
+                duration={course.duration}
+                price={course.price}
+              />
+            )) || <p>No courses found</p>
         }
       </div>
     </Container>

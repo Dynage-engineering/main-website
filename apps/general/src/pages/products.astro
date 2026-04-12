@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import Section from "@dynage/ui/astro/Section";
 import SectionSpacer from "@dynage/ui/astro/SectionSpacer";
-import { client } from "@dynage/contents/client";
+import { client, PLACEHOLDER_IMG } from "@dynage/contents/client";
 import { urlFor } from "@dynage/contents/image";
 
 // Fetch all products from Sanity
@@ -41,17 +41,15 @@ const products = await client.fetch(`*[_type == "product"] | order(name asc) {
           products.map((product: any) => (
             <div class="group flex flex-col bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-[3rem] overflow-hidden transition-all hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2">
               <div class="aspect-square overflow-hidden bg-gray-200 dark:bg-zinc-800">
-                {product.mainImage ? (
-                  <img
-                    src={urlFor(product.mainImage).width(600).url()}
-                    alt={product.name}
-                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                ) : (
-                  <div class="w-full h-full flex items-center justify-center text-gray-400 font-bold uppercase tracking-widest">
-                    {product.name}
-                  </div>
-                )}
+                <img
+                  src={
+                    product.mainImage
+                      ? urlFor(product.mainImage).width(600).url()
+                      : PLACEHOLDER_IMG
+                  }
+                  alt={product.name}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
               </div>
               <div class="p-10 flex-1 flex flex-col">
                 <div class="flex flex-wrap gap-2 mb-4">

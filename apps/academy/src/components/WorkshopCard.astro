@@ -9,6 +9,8 @@ import {
   CardTitle,
 } from "@dynage/ui/components/card";
 import { Badge } from "@dynage/ui/components/badge";
+import { Calendar, Clock } from "lucide-react";
+import { PLACEHOLDER_IMG } from "@dynage/contents/client";
 
 interface Props {
   title: string;
@@ -16,13 +18,21 @@ interface Props {
   image: string;
   date: string;
   price: string;
+  slug: string;
 }
 
-const { title, description, image, date, price } = Astro.props;
+const {
+  title,
+  description,
+  image = PLACEHOLDER_IMG,
+  date,
+  price,
+  slug,
+} = Astro.props;
 ---
 
-<>
-  <Card className="relative mx-auto w-full max-w-sm pt-0">
+<a href={`/workshops/${slug}`}>
+  <Card className="relative mx-auto w-full max-w-sm pt-0 hover:border-blue-500 transition-colors">
     <div class="absolute inset-0 z-30 aspect-video bg-black/35"></div>
     <img
       src={image}
@@ -30,16 +40,18 @@ const { title, description, image, date, price } = Astro.props;
       class="relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
     />
     <CardHeader>
-      <CardAction>
-        <Badge variant="secondary">{date}</Badge>
-      </CardAction>
       <CardTitle>{title}</CardTitle>
       <CardDescription>
-        {description.slice(0, 60)} 
+        <Badge variant={"secondary"} className="flex items-center gap-2">
+          <Calendar className="h-4 w-4" />
+          {date}
+        </Badge>
+        {description.slice(0, 60) + "..."}
       </CardDescription>
     </CardHeader>
     <CardFooter className="">
       <Button className="w-full">View Event</Button>
     </CardFooter>
   </Card>
-</>
+</a>
+

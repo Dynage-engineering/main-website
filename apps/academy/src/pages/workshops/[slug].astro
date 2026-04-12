@@ -1,0 +1,165 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import type { SanityDocument } from "@sanity/client";
+import { client, PLACEHOLDER_IMG } from "@dynage/contents/client";
+import { urlFor } from "@dynage/contents/image";
+import { PortableText } from "astro-portabletext";
+import { Container } from "@dynage/ui/components/container";
+import { ChevronLeft, Calendar, MapPin, User, Tag } from "lucide-react";
+import { Button } from "@dynage/ui/components/button";
+
+export async function getStaticPaths() {
+  const SLUGS_QUERY = `*[_type == "workshop" && defined(slug.current)]{
+    "params": {"slug": slug.current}
+  }`;
+  return await client.fetch(SLUGS_QUERY);
+}
+
+const WORKSHOP_QUERY = `*[_type == "workshop" && slug.current == $slug][0]`;
+const workshop = await client.fetch<SanityDocument>(
+  WORKSHOP_QUERY,
+  Astro.params,
+);
+
+if (!workshop) {
+  return Astro.redirect("/404");
+}
+
+const workshopImageUrl = workshop.mainImage
+  ? urlFor(workshop.mainImage).width(1200).height(675).url()
+  : PLACEHOLDER_IMG;
+
+const formattedDate = workshop.date
+  ? new Date(workshop.date).toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    })
+  : "Date TBD";
+---
+
+<Layout title={`${workshop.title} | Dynage Academy`}>
+  <section class="py-20 animate">
+    <Container size="md">
+      <a
+        href="/workshops"
+        class="mb-8 inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-600 transition-colors"
+      >
+        <ChevronLeft className="mr-1 h-4 w-4" /> Back to all workshops
+      </a>
+
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-8">
+          <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-8">
+            {workshop.title}
+          </h1>
+
+          <div
+            class="relative aspect-video overflow-hidden rounded-3xl bg-gray-100 shadow-2xl mb-12"
+          >
+            <img
+              src={workshopImageUrl}
+              alt={workshop.title}
+              class="h-full w-full object-cover"
+            />
+          </div>
+
+          <div class="prose dark:prose-invert prose-lg max-w-none mb-12">
+            {
+              workshop.description ? (
+                <PortableText value={workshop.description} />
+              ) : (
+                <p class="text-gray-500 italic">
+                  No description provided for this workshop yet.
+                </p>
+              )
+            }
+          </div>
+        </div>
+
+        <aside class="lg:col-span-4 h-fit lg:sticky lg:top-24">
+          <div
+            class="rounded-3xl border border-gray-200 dark:border-gray-800 p-8 shadow-sm space-y-8 bg-white dark:bg-zinc-900/50"
+          >
+            <div>
+              <h3 class="text-xl font-bold mb-6">Workshop Details</h3>
+              <div class="space-y-6">
+                <div class="flex items-start gap-4">
+                  <div
+                    class="mt-1 bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg"
+                  >
+                    <Calendar className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <span
+                      class="block text-xs text-gray-500 uppercase tracking-wider font-bold"
+                      >When</span
+                    >
+                    <span class="text-base font-semibold">{formattedDate}</span>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div
+                    class="mt-1 bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg"
+                  >
+                    <MapPin className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <span
+                      class="block text-xs text-gray-500 uppercase tracking-wider font-bold"
+                      >Where</span
+                    >
+                    <span class="text-base font-semibold"
+                      >{workshop.location || "Online"}</span
+                    >
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div
+                    class="mt-1 bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg"
+                  >
+                    <User className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <span
+                      class="block text-xs text-gray-500 uppercase tracking-wider font-bold"
+                      >Instructor</span
+                    >
+                    <span class="text-base font-semibold"
+                      >{workshop.instructor || "Expert Trainer"}</span
+                    >
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div
+                    class="mt-1 bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg"
+                  >
+                    <Tag className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <span
+                      class="block text-xs text-gray-500 uppercase tracking-wider font-bold"
+                      >Price</span
+                    >
+                    <span class="text-base font-semibold"
+                      >{workshop.price ? `$${workshop.price}` : "Free"}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <Button
+            className="w-full h-12 text-lg font-bold rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-all shadow-lg hover:shadow-blue-500/25 mt-4"
+          >
+            Secure Your Spot
+          </Button>
+        </aside>
+      </div>
+    </Container>
+  </section>
+</Layout>
