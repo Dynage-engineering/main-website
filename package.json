@@ -7,7 +7,14 @@
     "build": "nx run-many -t build",
     "dev": "nx run-many -t dev",
     "dev:web": "nx run-many -t dev --exclude=contents",
-    "lint": "nx run-many -t lint"
+    "lint": "nx run-many -t lint",
+    "deploy": "nx run-many -t deploy",
+    "deploy:academy": "pnpm --filter academy deploy",
+    "deploy:engineering": "pnpm --filter engineering deploy",
+    "deploy:finance": "pnpm --filter finance deploy",
+    "deploy:general": "pnpm --filter general deploy",
+    "deploy:research": "pnpm --filter research deploy",
+    "deploy:studio": "pnpm --filter studio deploy"
   },
   "devDependencies": {
     "nx": "22.6.5",
