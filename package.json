@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "packageManager": "pnpm@10.4.0",
   "private": true,
+  "author": {
+    "email": "hello@dynage.technology",
+    "name": "Dynage"
+    "url": "https://dynage.technology"
+  },
   "scripts": {
     "build": "nx run-many -t build",
     "dev": "nx run-many -t dev",
