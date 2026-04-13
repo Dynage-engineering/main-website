@@ -2,6 +2,7 @@
 import "@dynage/ui/globals.css";
 import { ThemedHeader } from "@dynage/ui/components/themed-header";
 import { Footer } from "@dynage/ui/components/footer";
+import { Container } from "@dynage/ui/components/container";
 
 export interface Props {
   title?: string;
@@ -33,7 +34,7 @@ const pathname = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="description" content={description || site.DESCRIPTION} />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title ? `${title} | ${site.TITLE}` : site.TITLE}</title>
     <script is:inline>
@@ -69,8 +70,10 @@ const pathname = Astro.url.pathname;
       text={text}
       pathname={pathname}
     />
-    <main class="pt-16 min-h-screen">
-      <slot />
+    <main class="pt-16 min-h-screen w-full">
+      <Container size="lg">
+        <slot />
+      </Container>
     </main>
     <Footer client:load site={site} />
   </body>
