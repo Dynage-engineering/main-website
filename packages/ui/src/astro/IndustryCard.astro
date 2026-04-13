@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { client } from "@dynage/contents/client";
+import { ChevronRight } from "lucide-react";
 
 interface IndustryDiv {
   title: string;
@@ -26,29 +27,37 @@ const displayIndustries =
   sanityIndustries?.length > 0 ? sanityIndustries : localIndustries;
 ---
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div
+  class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full"
+  id="industry-cards-container"
+>
   {
     displayIndustries?.map(
       ({ title, subtitle, key_capabilities }: IndustryDiv, index: number) => (
-        <div class="group relative overflow-hidden rounded-3xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50 p-8 transition-all hover:bg-white dark:hover:bg-gray-900 hover:shadow-2xl hover:shadow-blue-500/5 hover:-translate-y-1">
-          <div class="flex flex-col h-full">
-            <h3 class="text-2xl font-bold tracking-tight mb-4 group-hover:text-blue-600 transition-colors">
+        <div class="industry-card opacity-0 group relative flex flex-col overflow-hidden rounded-3xl border border-gray-200/50 dark:border-gray-800/50 bg-white/40 dark:bg-gray-900/40 backdrop-blur-xl p-8 transition-shadow hover:bg-white/80 dark:hover:bg-gray-900/80 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] h-full">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+          <div class="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-colors duration-700 pointer-events-none" />
+
+          <div class="relative z-10 flex flex-col h-full">
+            <h3 class="text-2xl font-bold tracking-tight mb-4 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
               {title}
             </h3>
             <p class="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed flex-grow">
               {subtitle}
             </p>
 
-            {key_capabilities && (
-              <div class="mt-auto">
-                <p class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">
+            {key_capabilities && key_capabilities.length > 0 && (
+              <div class="mt-auto pt-6 w-full">
+                <p class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">
                   Key Capabilities
                 </p>
-                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-4 text-gray-100">
                   {key_capabilities.map((item: string) => (
-                    <li class="flex items-center text-sm text-gray-500">
-                      <span class="mr-2 h-1 w-1 rounded-full bg-blue-600" />
-                      {item}
+                    <li class="flex items-start text-sm text-gray-700 dark:text-gray-300 leading-tight py-1">
+                      <div class="mt-0.5 mr-2 flex-shrink-0 text-blue-500 ">
+                        <ChevronRight className="h-3 w-3" strokeWidth={3} />
+                      </div>
+                      <span class="pt-0.5 text-gray-600">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -60,3 +69,35 @@ const displayIndustries =
     )
   }
 </div>
+
+<script>
+  import { animate, inView, stagger } from "motion";
+
+  const setupAnimation = () => {
+    inView("#industry-cards-container", () => {
+      animate(
+        ".industry-card",
+        { opacity: [0, 1], y: [48, 0] },
+        {
+          delay: stagger(0.15),
+          duration: 0.8,
+          ease: [0.16, 1, 0.3, 1], // Custom spring-like easing
+        },
+      );
+    });
+
+    // Add hover lift effect natively using motion
+    document.querySelectorAll(".industry-card").forEach((card) => {
+      card.addEventListener("mouseenter", () => {
+        animate(card, { y: -8 }, { duration: 0.3, ease: "easeOut" });
+      });
+      card.addEventListener("mouseleave", () => {
+        animate(card, { y: 0 }, { duration: 0.3, ease: "easeOut" });
+      });
+    });
+  };
+
+  // Run on load
+  setupAnimation();
+  document.addEventListener("astro:page-load", setupAnimation);
+</script>
