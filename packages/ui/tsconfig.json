@@ -16,6 +16,9 @@
     "paths": {
       "@dynage/ui/*": [
         "./src/*"
+      ],
+      "@dynage/contents/*": [
+        "../../packages/contents/*"
       ]
     }
   },

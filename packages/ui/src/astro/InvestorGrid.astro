@@ -20,7 +20,7 @@ const displayPartners =
     sanityPartners?.length > 0 ? sanityPartners : localPartners;
 ---
 
-<Section as="div" class="py-12" padBlock={false}>
+<Section as="div" class="py-12 w-fit" padBlock={false}>
     <ul class="grid grid-cols-2 md:grid-cols-4 gap-8">
         {
             displayPartners.map(({ name, logo, link }: any) => (

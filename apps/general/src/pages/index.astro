@@ -7,6 +7,7 @@ import StatsGrid from "@dynage/ui/astro/StatsGrid.astro";
 import { WordSwitcher } from "@dynage/ui/components/word-switcher";
 import { client } from "@dynage/contents/client";
 import { SITE } from "../consts";
+import Layout from "@/layouts/Layout.astro";
 
 // Fetch dynamic content
 const pageData = await client.fetch(`{
@@ -52,7 +53,7 @@ const arms = [
 ];
 ---
 
-<MainLayout title={SITE.TITLE} description={SITE.DESCRIPTION}>
+<Layout title={SITE.TITLE}>
   <section
     class="py-24 flex flex-col items-center justify-center text-center my-16"
   >
@@ -147,17 +148,10 @@ const arms = [
       </div>
     </Section>
 
-    <SectionSpacer size="md" />
-
-    <!-- Global Reach Section -->
-    <div class="bg-gray-100 dark:bg-zinc-900/50 py-24">
-      <StatsGrid entryName="global-stats" />
-    </div>
-
-    <SectionSpacer size="md" />
+    <SectionSpacer size="lg" />
 
     <!-- Industries Showcase -->
-    <Section>
+    <!-- <Section>
       <div class="max-w-4xl mx-auto text-center mb-20 px-4">
         <h2 class="text-4xl md:text-7xl font-black tracking-tighter mb-6">
           Industries We <span class="text-blue-600">Impact</span>
@@ -167,9 +161,29 @@ const arms = [
           multi-disciplinary expertise.
         </p>
       </div>
-      <IndustryCard />
+      <div class="px-4">
+				<IndustryCard />
+			</div>
+    </Section> -->
+    <Section fullWidthBorder>
+      <div class="max-w-4xl mx-auto text-center mb-16 px-4">
+        <h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
+          Industries we <span class="text-blue-600">Elevate</span>
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          We engineer tailored solutions for complex industrial challenges,
+          driving efficiency and automation where it matters most.
+        </p>
+      </div>
+      <div class="px-4 w-full max-w-7xl mx-auto"><IndustryCard /></div>
     </Section>
+    <SectionSpacer size="lg" />
+
+    <!-- Global Reach Section -->
+    <div class="bg-gray-50 dark:bg-black/50 py-24">
+      <StatsGrid entryName="global-stats" />
+    </div>
 
     <SectionSpacer size="lg" />
   </main>
-</MainLayout>
+</Layout>

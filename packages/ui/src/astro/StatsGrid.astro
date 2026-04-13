@@ -5,9 +5,9 @@ import CountUp from "./CountUp.astro";
 import { client } from "@dynage/contents/client";
 
 interface StatItem {
-  title: string;
-  value: number;
-  unit: string;
+    title: string;
+    value: number;
+    unit: string;
 }
 
 // Fetch from Sanity
@@ -18,31 +18,38 @@ const sanityStats = await client.fetch(`*[_type == "stat"] | order(order asc) {
 }`);
 
 // Local Fallback
-const localStatsEntry = await getEntry('stats', Astro.props.entryName);
+const localStatsEntry = await getEntry("stats", Astro.props.entryName);
 const localStats = localStatsEntry?.data || [];
 
 const displayStats = sanityStats?.length > 0 ? sanityStats : localStats;
 ---
+
 <Section class="py-12 bg-gray-50 dark:bg-black/50" padBlock={false}>
-    <ul class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 py-12 px-6">
-        {displayStats?.map(({ title, value, unit }: StatItem, index: number) => (
-            <li 
-                class="flex flex-col justify-center text-center animate-fade-in-up opacity-0"
-                style={`animation-delay: ${index * 150}ms; animation-fill-mode: forwards;`}
-            >
-                <div class="mb-2">
-                    <CountUp 
-                        class="text-6xl md:text-7xl font-black tracking-tighter text-blue-600" 
-                        start={0} 
-                        end={value} 
-                        unit={unit} 
-                    />
-                </div>
-                <p class="text-lg font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
-                    {title}
-                </p>
-            </li>
-        ))}
+    <ul
+        class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 py-12 px-6"
+    >
+        {
+            displayStats?.map(
+                ({ title, value, unit }: StatItem, index: number) => (
+                    <li
+                        class="flex flex-col justify-center text-center animate-fade-in-up opacity-0"
+                        style={`animation-delay: ${index * 150}ms; animation-fill-mode: forwards;`}
+                    >
+                        <div class="mb-2">
+                            <CountUp
+                                class="text-6xl md:text-7xl font-black tracking-tighter text-blue-600"
+                                start={0}
+                                end={value}
+                                unit={unit}
+                            />
+                        </div>
+                        <p class="text-lg font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                            {title}
+                        </p>
+                    </li>
+                ),
+            )
+        }
     </ul>
 </Section>
 

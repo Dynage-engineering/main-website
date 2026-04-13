@@ -1,1 +1,0 @@
-# ✨ Dynage Technologies

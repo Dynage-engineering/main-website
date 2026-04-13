@@ -1,26 +1,29 @@
 ---
-import MainLayout from "../layouts/MainLayout.astro";
 import Section from "@dynage/ui/astro/Section.astro";
 import SectionSpacer from "@dynage/ui/astro/SectionSpacer.astro";
 import InvestorGrid from "@dynage/ui/astro/InvestorGrid.astro";
+import Layout from "@/layouts/Layout.astro";
 ---
 
-<MainLayout title="Partners | Dynage Technologies">
+<Layout title="Partners | Dynage Technologies">
   <main class="pb-32">
     <Section fullWidthBorder>
       <div class="max-w-4xl mx-auto text-center mb-16 px-4">
         <h2 class="text-4xl md:text-7xl font-black tracking-tighter mb-6">
           Strategic <span class="text-blue-600">Partnerships</span>
         </h2>
-        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium">
-          Collaborating with world-class organizations to push the boundaries of industrial and digital intelligence.
+        <p
+          class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium"
+        >
+          Collaborating with world-class organizations to push the boundaries of
+          industrial and digital intelligence.
         </p>
       </div>
       <div class="px-4">
         <InvestorGrid />
       </div>
     </Section>
-
+    <SectionSpacer size="lg" />
     <!-- Partnership Inquiry -->
     <Section
       variant="dark"
@@ -43,5 +46,5 @@ import InvestorGrid from "@dynage/ui/astro/InvestorGrid.astro";
         </a>
       </div>
     </Section>
-  </div>
+  </main>
 </MainLayout>

@@ -1,3 +1,6 @@
+export const MEETING_URL = "https://zcal.co/neophyte/30min";
+
+
 export const SITE = {
   TITLE: "Dynage Technologies",
   DESCRIPTION: "A digital agency that helps you grow your business through engineering and design excellence.",
@@ -9,6 +12,7 @@ export const LINKS = [
   { TEXT: "Products", HREF: "/products" },
   { TEXT: "Projects", HREF: "/projects" },
   { TEXT: "Partners", HREF: "/partners" },
+  // { TEXT: "Shop", HREF: "#", BADGE: "SOON" },
 ]
 
 export const LOGO = {

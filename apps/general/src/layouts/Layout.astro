@@ -4,14 +4,18 @@ import { ThemedHeader } from "@dynage/ui/components/themed-header";
 import { Footer } from "@dynage/ui/components/footer";
 import { SITE, LINKS, LOGO } from "../consts";
 
-const { title, description } = Astro.props;
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description || SITE.DESCRIPTION} />
+    <meta name="description" content={SITE.DESCRIPTION} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
@@ -54,5 +58,4 @@ const { title, description } = Astro.props;
     <Footer client:load site={SITE} />
   </body>
 </html>
-
 <style is:global></style>
