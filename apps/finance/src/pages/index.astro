@@ -3,7 +3,6 @@ import Layout from "../layouts/Layout.astro";
 import Section from "@dynage/ui/astro/Section";
 import SectionSpacer from "@dynage/ui/astro/SectionSpacer";
 import StatsGrid from "@dynage/ui/astro/StatsGrid";
-import IndustryCard from "@dynage/ui/astro/IndustryCard";
 import { client } from "@dynage/contents/client";
 import { MEETING_URL, SITE } from "../consts";
 
@@ -77,9 +76,6 @@ const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 					Diversified exposure across high-liquidity markets, managed
 					by intelligence.
 				</p>
-			</div>
-			<div class="px-4 w-full max-w-7xl mx-auto">
-				<IndustryCard />
 			</div>
 		</Section>
 
