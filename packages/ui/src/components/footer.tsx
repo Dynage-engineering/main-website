@@ -2,6 +2,7 @@ import * as React from "react"
 import { Container } from "./container"
 import { Logo } from "@dynage/ui/components/logo"
 import { SOCIALS, type Social } from "@dynage/ui/lib/consts"
+import { ChevronUp } from "lucide-react"
 
 
 
@@ -28,7 +29,7 @@ export const Footer: React.FC<FooterProps> = ({ site, socials = SOCIALS }) => {
     <footer className="relative bg-white dark:bg-black">
       <div className="animate">
         <section className="py-5">
-          <Container size="md">
+          <Container size="lg">
             <div className="flex items-center justify-center sm:justify-end">
               <button
                 id="back-to-top"
@@ -36,29 +37,7 @@ export const Footer: React.FC<FooterProps> = ({ site, socials = SOCIALS }) => {
                 aria-label="Back to top of page"
                 className="group flex w-fit p-1.5 gap-1.5 text-sm items-center border rounded hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="stroke-current group-hover:stroke-black group-hover:dark:stroke-white rotate-90"
-                >
-                  <line
-                    x1="19"
-                    y1="12"
-                    x2="5"
-                    y2="12"
-                    className="scale-x-0 group-hover:scale-x-100 translate-x-3 group-hover:translate-x-0 transition-all duration-300 ease-in-out"
-                  />
-                  <polyline
-                    points="12 19 5 12 12 5"
-                    className="translate-x-1 group-hover:translate-x-0 transition-all duration-300 ease-in-out"
-                  />
-                </svg>
+                <ChevronUp />
                 <div className="w-full group-hover:text-black group-hover:dark:text-white transition-colors duration-300 ease-in-out">
                   Back to top
                 </div>
@@ -68,7 +47,7 @@ export const Footer: React.FC<FooterProps> = ({ site, socials = SOCIALS }) => {
         </section>
 
         <section className="py-5 overflow-hidden whitespace-nowrap border-t border-black/10 dark:border-white/25">
-          <Container size="md">
+          <Container size="lg">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="flex flex-col items-center sm:items-start">
                 <a
@@ -90,7 +69,7 @@ export const Footer: React.FC<FooterProps> = ({ site, socials = SOCIALS }) => {
         </section>
 
         <section className="py-5 overflow-hidden whitespace-nowrap border-t border-black/10 dark:border-white/25">
-          <Container size="md">
+          <Container size="lg">
             <div className="h-full grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="order-2 sm:order-1 flex flex-col items-center justify-center sm:items-start">
                 <div className="legal flex gap-2">

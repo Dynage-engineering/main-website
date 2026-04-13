@@ -63,7 +63,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header id="header" className={cn("fixed top-0 w-full h-16 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-sm", className)}>
-      <Container size="md">
+      <Container size="lg">
         <div className="relative h-full w-full">
           <div className="absolute left-0 top-1/2 -translate-y-1/2 flex gap-1 font-semibold">
             <a
