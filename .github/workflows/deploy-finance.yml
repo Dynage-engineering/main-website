@@ -11,6 +11,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v3
@@ -34,4 +37,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: finance
           directory: apps/finance/dist
-          gitHubToken: ${{ secrets.GH_TOKEN }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
