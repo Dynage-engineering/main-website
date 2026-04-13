@@ -18,13 +18,17 @@ const pageData = await client.fetch(`{
 }`);
 
 const hero = pageData.content.find((s: any) => s.section === "Hero") || {
-  title: "Quantitatively Powered <span class='text-blue-600'>Wealth Management</span>",
-  description: "Leveraging cutting-edge quantitative methods to dominate Forex, Gold, and Crypto markets. We bridge institutional strategy with high-yield performance."
+	title: "Quantitatively Powered <span class='text-blue-600'>Wealth Management</span>",
+	description:
+		"Leveraging cutting-edge quantitative methods to dominate Forex, Gold, and Crypto markets. We bridge institutional strategy with high-yield performance.",
 };
 
-const valueProp = pageData.content.find((s: any) => s.section === "ValueProp") || {
-  title: "Why Trade with Dynage?",
-  description: "Our proprietary algorithms and risk-management systems ensure consistent growth in volatile environments. We don't just follow the market—we lead it."
+const valueProp = pageData.content.find(
+	(s: any) => s.section === "ValueProp",
+) || {
+	title: "Why Trade with Dynage?",
+	description:
+		"Our proprietary algorithms and risk-management systems ensure consistent growth in volatile environments. We don't just follow the market—we lead it.",
 };
 
 const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
@@ -37,7 +41,7 @@ const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 		<div class="max-w-4xl px-4">
 			<h1
 				class="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-[1.1]"
-                set:html={hero.title}
+				set:html={hero.title}
 			/>
 			<p
 				class="text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto"
@@ -67,11 +71,14 @@ const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 				<h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
 					Instruments of <span class="text-blue-600">Choice</span>
 				</h2>
-				<p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-					Diversified exposure across high-liquidity markets, managed by intelligence.
+				<p
+					class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+				>
+					Diversified exposure across high-liquidity markets, managed
+					by intelligence.
 				</p>
 			</div>
-			<div class="px-4">
+			<div class="px-4 w-full max-w-7xl mx-auto">
 				<IndustryCard />
 			</div>
 		</Section>
@@ -80,12 +87,14 @@ const dynamicMeetingUrl = pageData.meetingUrl || MEETING_URL;
 
 		<Section variant="dark" fullWidthBorder={false}>
 			<div class="max-w-5xl mx-auto text-center py-20 px-8">
-				<h2 class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-8">
+				<h2
+					class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-8"
+				>
 					{valueProp.title}
 				</h2>
-                <p class="text-xl text-gray-400 mb-10 max-w-3xl mx-auto">
-                    {valueProp.description}
-                </p>
+				<p class="text-xl text-gray-400 mb-10 max-w-3xl mx-auto">
+					{valueProp.description}
+				</p>
 				<div class="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
 			</div>
 		</Section>
