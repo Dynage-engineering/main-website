@@ -1,18 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Section from "@dynage/ui/astro/Section.astro";
-import { client, PLACEHOLDER_IMG } from "@dynage/contents/client";
-import { urlFor } from "@dynage/contents/image";
-
-// Fetch all studio products from Sanity
-const products =
-  await client.fetch(`*[_type == "product"] | order(publishedAt desc) {
-  name,
-  "slug": slug.current,
-    "excerpt": pt::text(description),
-  mainImage,
-  publishedAt
-}`);
+import ProductsGrid from "@dynage/ui/astro/ProductsGrid.astro";
 ---
 
 <Layout title="Products | Dynage Studio">
@@ -32,57 +20,5 @@ const products =
     </div>
   </section>
 
-  <main class="pb-32">
-    <Section>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 px-4">
-        {
-          products.map((product: any) => (
-            <div class="group block bg-gray-50 dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-zinc-800 transition-all hover:shadow-2xl hover:shadow-blue-500/5 hover:-translate-y-2">
-              <div class="aspect-[16/9] overflow-hidden bg-gray-200 dark:bg-zinc-800">
-                <img
-                  src={
-                    product.mainImage
-                      ? urlFor(product.mainImage).width(1200).url()
-                      : PLACEHOLDER_IMG
-                  }
-                  alt={product.name}
-                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
-              <div class="p-10">
-                <h3 class="text-3xl font-black tracking-tighter mb-4 uppercase group-hover:text-blue-600 transition-colors">
-                  {product.name}
-                </h3>
-                <p class="text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
-                  {product.excerpt?.length > 100
-                    ? product.excerpt.substring(0, 100) + "..."
-                    : product.excerpt}
-                </p>
-
-                <div class="mt-8 flex items-center text-black dark:text-white font-black uppercase text-sm tracking-widest cursor-pointer">
-                  View Product Details
-                  <div class="ml-4 w-10 h-10 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center transition-colors group-hover:bg-blue-600 group-hover:border-blue-600 group-hover:text-white">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="3"
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </Section>
-  </main>
+  <ProductsGrid />
 </Layout>
